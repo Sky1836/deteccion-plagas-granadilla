@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  telefono  String?
+  rol       Rol      @default(AGRICULTOR)
+  createdAt DateTime @default(now())
+
+  diagnosticos Diagnostico[]
+}
+
+enum Rol {
+  AGRICULTOR
+  ADMIN
+}
+
+model Diagnostico {
+  id            Int      @id @default(autoincrement())
+  imagenUrl     String
+  resultado     String
+  recomendacion String?
+  fecha         DateTime @default(now())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  plagaId Int
+  plaga   Plaga @relation(fields: [plagaId], references: [id])
+}
+
+model Plaga {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @unique
+  descripcion String
+  tipo        String // Por ejemplo: "hongo", "bacteria", "insecto"
+  createdAt   DateTime @default(now())
+
+  insecticidas Insecticida[]
+  diagnosticos Diagnostico[]
+}
+
+model Insecticida {
+  id         Int    @id @default(autoincrement())
+  nombre     String
+  compuesto  String
+  aplicacion String // Modo de uso
+  plagaId    Int
+  plaga      Plaga  @relation(fields: [plagaId], references: [id])
+}

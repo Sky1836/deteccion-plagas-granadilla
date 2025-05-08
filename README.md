@@ -1,1 +1,7 @@
-# deteccion-plagas-granadilla
+# **Aplicación con IA para la detección de palgas**
+
+**Tema:** DESARROLLO DE UNA APLICACIÓN WEB CON VISIÓN ARTIFICIAL PARA LA DETECCION DE PLAGAS EN CULTIVOS DE GRANADILLA EN LA COMUNIDAD QUINTA YUQUÍN
+
+_**Autora**_
+
+Cielo Morillo

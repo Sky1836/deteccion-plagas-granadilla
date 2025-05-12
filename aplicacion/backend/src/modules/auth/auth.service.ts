@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import * as admin from 'firebase-admin';
+import admin from '../../firebase-admin'; // ruta relativa al archivo que creaste
 import { Rol } from '../users/dto/user.dto';
 
 @Injectable()

@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
+import './firebase-admin'; // 👈 Esto asegura que Firebase se inicialice al arrancar
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diagnósticos – Prueba</title>
+</head>
+<body>
+  <h1>Registrar Diagnóstico</h1>
+  <form id="diagnosticoForm">
+    <label>Usuario ID: <input type="number" name="userId" required /></label><br />
+    <label>Plaga ID: <input type="number" name="plagaId" required /></label><br />
+    <label>Resultado: <input type="text" name="resultado" required /></label><br />
+    <label>Recomendación: <input type="text" name="recomendacion" /></label><br />
+    <label>Fecha: <input type="date" name="fecha" required /></label><br />
+    <label>Imagen URL: <input type="text" name="imagenUrl" /></label><br />
+    <button type="submit">Enviar</button>
+  </form>
+
+  <hr />
+
+  <h2>Consultar Historial</h2>
+  <label>Usuario ID: <input type="number" id="userIdConsulta" /></label><br />
+  <label>Desde: <input type="date" id="desde" /></label><br />
+  <label>Hasta: <input type="date" id="hasta" /></label><br />
+  <label>Plaga: <input type="text" id="plaga" /></label><br />
+  <button onclick="consultar()">Buscar</button>
+
+  <pre id="resultado"></pre>
+
+  <script>
+    const apiBase = 'http://localhost:3000/diagnosticos'; // Cambia el puerto si es necesario
+
+    document.getElementById('diagnosticoForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch(apiBase, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...data,
+            plagaId: Number(data.plagaId),
+            userId: Number(data.userId),
+          }),
+        });
+        const json = await res.json();
+        alert('Diagnóstico creado correctamente');
+        console.log(json);
+      } catch (err) {
+        console.error(err);
+        alert('Error al crear diagnóstico');
+      }
+    });
+
+    async function consultar() {
+      const userId = document.getElementById('userIdConsulta').value;
+      const desde = document.getElementById('desde').value;
+      const hasta = document.getElementById('hasta').value;
+      const plaga = document.getElementById('plaga').value;
+
+      const params = new URLSearchParams({ userId, desde, hasta, plaga });
+      const url = `${apiBase}?${params.toString()}`;
+
+      try {
+        const res = await fetch(url);
+        const json = await res.json();
+        document.getElementById('resultado').textContent = JSON.stringify(json, null, 2);
+      } catch (err) {
+        console.error(err);
+        alert('Error al consultar historial');
+      }
+    }
+  </script>
+</body>
+</html>

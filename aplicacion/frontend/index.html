@@ -84,12 +84,17 @@
             const res = await fetch('http://localhost:3000/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token }), // ✅ ahora sí manda el token real
+            body: JSON.stringify({ token }), 
             });
 
             const data = await res.json();
             console.log("Usuario autenticado:", data.user);
-            document.getElementById("mensaje").innerText = `Hola ${data.user.nombre || data.user.email}`;
+
+            if (data.user.rol === "ADMIN") {
+              window.location.href = "http://127.0.0.1:5500/aplicacion/frontend/diagnosticos.html";
+            } else {
+              window.location.href = "http://127.0.0.1:5500/aplicacion/frontend/agricultor.html";
+            }
         } catch (err) {
             console.error("Error al conectar con backend:", err);
             alert("No se pudo conectar con el servidor");
@@ -102,7 +107,7 @@
       const password = document.getElementById("password").value;
 
       try {
-        const result = await auth.signInWithEmailAndPassword(email, password);
+        const result = await auth.createUserWithEmailAndPassword(email, password);
         const token = await result.user.getIdToken();
         sendTokenToBackend(token);
       } catch (err) {

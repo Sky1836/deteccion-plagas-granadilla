@@ -2,33 +2,99 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Diagnósticos – Prueba</title>
+  <title>Diagnósticos – Agricultor</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #eef2f3, #cfd9df);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1, h2 {
+      color: #003366;
+    }
+
+    form, .consulta {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      background-color: #003366;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0059b3;
+    }
+
+    pre {
+      background-color: #f8f8f8;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 6px;
+      max-width: 500px;
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 <body>
+
   <h1>Registrar Diagnóstico</h1>
   <form id="diagnosticoForm">
-    <label>Usuario ID: <input type="number" name="userId" required /></label><br />
-    <label>Plaga ID: <input type="number" name="plagaId" required /></label><br />
-    <label>Resultado: <input type="text" name="resultado" required /></label><br />
-    <label>Recomendación: <input type="text" name="recomendacion" /></label><br />
-    <label>Fecha: <input type="date" name="fecha" required /></label><br />
-    <label>Imagen URL: <input type="text" name="imagenUrl" /></label><br />
+    <label>Usuario ID: <input type="number" name="userId" required /></label>
+    <label>Plaga ID: <input type="number" name="plagaId" required /></label>
+    <label>Resultado: <input type="text" name="resultado" required /></label>
+    <label>Recomendación: <input type="text" name="recomendacion" /></label>
+    <label>Fecha: <input type="date" name="fecha" required /></label>
+    <label>Imagen URL: <input type="text" name="imagenUrl" /></label>
     <button type="submit">Enviar</button>
   </form>
 
-  <hr />
-
-  <h2>Consultar Historial</h2>
-  <label>Usuario ID: <input type="number" id="userIdConsulta" /></label><br />
-  <label>Desde: <input type="date" id="desde" /></label><br />
-  <label>Hasta: <input type="date" id="hasta" /></label><br />
-  <label>Plaga: <input type="text" id="plaga" /></label><br />
-  <button onclick="consultar()">Buscar</button>
+  <div class="consulta">
+    <h2>Consultar Historial</h2>
+    <label>Usuario ID: <input type="number" id="userIdConsulta" /></label>
+    <label>Desde: <input type="date" id="desde" /></label>
+    <label>Hasta: <input type="date" id="hasta" /></label>
+    <label>Plaga: <input type="text" id="plaga" /></label>
+    <button onclick="consultar()">Buscar</button>
+  </div>
 
   <pre id="resultado"></pre>
 
   <script>
-    const apiBase = 'http://localhost:3000/diagnosticos'; // Cambia el puerto si es necesario
+    const apiBase = 'http://localhost:3000/diagnosticos';
 
     document.getElementById('diagnosticoForm').addEventListener('submit', async (e) => {
       e.preventDefault();

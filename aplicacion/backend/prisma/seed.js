@@ -5,9 +5,9 @@ async function main() {
   // 1. Crear un usuario
   const user = await prisma.user.create({
     data: {
-      nombre: 'Juan Agricultor',
-      email: 'juan@agro.com',
-      telefono: '0999999999',
+      nombre: 'María Campesina',
+      email: 'maria@granja.com',
+      telefono: '0988888888',
       rol: 'AGRICULTOR',
     },
   });
@@ -15,18 +15,18 @@ async function main() {
   // 2. Crear una plaga
   const plaga = await prisma.plaga.create({
     data: {
-      nombre: 'Mosca Blanca',
-      descripcion: 'Pequeña plaga que afecta cultivos frutales.',
-      tipo: 'insecto',
+      nombre: 'Ácaro Rojo',
+      descripcion: 'Plaga microscópica que daña las hojas de forma progresiva.',
+      tipo: 'ácaro',
     },
   });
 
   // 3. Crear un insecticida asociado a la plaga
   const insecticida = await prisma.insecticida.create({
     data: {
-      nombre: 'BlancaKill',
-      compuesto: 'Imidacloprid',
-      aplicacion: 'Aplicar directamente en hojas una vez por semana.',
+      nombre: 'Acaricida Max',
+      compuesto: 'Abamectina',
+      aplicacion: 'Aplicar en aspersión foliar cada 5 días.',
       plagaId: plaga.id,
     },
   });
@@ -34,16 +34,16 @@ async function main() {
   // 4. Crear un diagnóstico asociado al usuario y la plaga
   const diagnostico = await prisma.diagnostico.create({
     data: {
-      imagenUrl: 'https://via.placeholder.com/150',
-      resultado: 'Presencia leve de Mosca Blanca',
-      recomendacion: 'Aplicar BlancaKill durante 3 semanas',
+      imagenUrl: 'https://via.placeholder.com/200',
+      resultado: 'Infestación moderada de Ácaro Rojo',
+      recomendacion: 'Usar Acaricida Max cada 5 días por dos semanas',
       fecha: new Date(),
       userId: user.id,
       plagaId: plaga.id,
     },
   });
 
-  console.log('✅ Seed completo:');
+  console.log('✅ Seed completo con nuevos datos:');
   console.log({ user, plaga, insecticida, diagnostico });
 }
 

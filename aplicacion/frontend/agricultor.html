@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Perfil del Agricultor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      color: #001634;
+    }
+    p {
+      margin: 6px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="perfil">
+    <h2>Perfil del Agricultor</h2>
+    <p><strong>Nombre:</strong> <span id="nombre">Cargando...</span></p>
+    <p><strong>Email:</strong> <span id="email">Cargando...</span></p>
+    <p><strong>Teléfono:</strong> <span id="telefono">Cargando...</span></p>
+    <p><strong>Rol:</strong> <span id="rol">Cargando...</span></p>
+    <p><strong>Registrado el:</strong> <span id="fecha">Cargando...</span></p>
+  </div>
+
+  <script>
+    const userId = 18; // Cambia esto si necesitas otro ID
+    const url = `http://localhost:3000/users/${userId}`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("nombre").textContent = data.nombre;
+        document.getElementById("email").textContent = data.email;
+        document.getElementById("telefono").textContent = data.telefono || "No registrado";
+        document.getElementById("rol").textContent = data.rol;
+        document.getElementById("fecha").textContent = new Date(data.createdAt).toLocaleDateString();
+      })
+      .catch(err => {
+        document.getElementById("perfil").innerHTML = "<p>Error al cargar el perfil</p>";
+        console.error(err);
+      });
+  </script>
+</body>
+</html>

@@ -10,4 +10,10 @@ export class AuthController {
     const user = await this.authService.validateFirebaseToken(token);
     return { user };
   }
+
+  // ✅ Nuevo endpoint: verificar si un correo existe
+  @Post('check-email')
+  async checkEmail(@Body('email') email: string) {
+    return this.authService.checkIfEmailExists(email);
+  }
 }

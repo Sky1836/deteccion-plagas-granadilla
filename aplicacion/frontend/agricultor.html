@@ -2,31 +2,94 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Perfil del Agricultor</title>
+  <title>Panel del Agricultor</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f1f1f1;
-      padding: 20px;
+      background: #eef2f7;
+      padding: 30px;
     }
+
     .card {
       background: white;
       padding: 20px;
-      border-radius: 10px;
-      max-width: 400px;
+      border-radius: 12px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      max-width: 600px;
     }
+
     h2 {
       color: #001634;
+      margin-top: 0;
     }
+
     p {
       margin: 6px 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background-color: #0077ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004eb3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #001634;
+      color: white;
+    }
+
+    #preview {
+      margin-top: 10px;
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
+
   <div class="card" id="perfil">
-    <h2>Perfil del Agricultor</h2>
+    <h2>👨‍🌾 Perfil del Agricultor</h2>
     <p><strong>Nombre:</strong> <span id="nombre">Cargando...</span></p>
     <p><strong>Email:</strong> <span id="email">Cargando...</span></p>
     <p><strong>Teléfono:</strong> <span id="telefono">Cargando...</span></p>
@@ -34,23 +97,140 @@
     <p><strong>Registrado el:</strong> <span id="fecha">Cargando...</span></p>
   </div>
 
-  <script>
-    const userId = 18; // Cambia esto si necesitas otro ID
-    const url = `http://localhost:3000/users/${userId}`;
+  <div class="card">
+    <h2>📷 Tomar Foto del Cultivo</h2>
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <img id="preview" style="display:none;" />
+    <button id="capturar">Tomar Foto</button>
+    <button id="enviar" style="display:none;">Detectar Plaga</button>
+  </div>
 
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("nombre").textContent = data.nombre;
-        document.getElementById("email").textContent = data.email;
-        document.getElementById("telefono").textContent = data.telefono || "No registrado";
-        document.getElementById("rol").textContent = data.rol;
-        document.getElementById("fecha").textContent = new Date(data.createdAt).toLocaleDateString();
+  <div class="card">
+    <h2>📄 Historial de Diagnósticos</h2>
+    <table id="tabla-diagnosticos">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Resultado</th>
+          <th>Plaga</th>
+          <th>Recomendación</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      alert("No hay usuario autenticado");
+      window.location.href = "login.html";
+    }
+
+    document.getElementById("nombre").textContent = user.nombre;
+    document.getElementById("email").textContent = user.email;
+    document.getElementById("telefono").textContent = user.telefono || "No registrado";
+    document.getElementById("rol").textContent = user.rol;
+    document.getElementById("fecha").textContent = new Date(user.createdAt).toLocaleDateString();
+
+    let plagasDesdeDB = [];
+
+    async function cargarPlagasDesdeDB() {
+      try {
+        const res = await fetch("http://localhost:3000/plagas");
+        plagasDesdeDB = await res.json();
+      } catch (err) {
+        console.error("Error al cargar plagas desde la base de datos:", err);
+      }
+    }
+
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const preview = document.getElementById("preview");
+    const capturarBtn = document.getElementById("capturar");
+    const enviarBtn = document.getElementById("enviar");
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+      .then(stream => {
+        video.srcObject = stream;
       })
       .catch(err => {
-        document.getElementById("perfil").innerHTML = "<p>Error al cargar el perfil</p>";
+        alert("No se pudo acceder a la cámara");
         console.error(err);
       });
+
+    capturarBtn.addEventListener("click", () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext("2d").drawImage(video, 0, 0);
+      const imageData = canvas.toDataURL("image/jpeg");
+      preview.src = imageData;
+      preview.style.display = "block";
+      enviarBtn.style.display = "block";
+    });
+
+    enviarBtn.addEventListener("click", async () => {
+      if (plagasDesdeDB.length === 0) {
+        alert("No hay plagas disponibles en la base de datos.");
+        return;
+      }
+
+      const fakeUrl = preview.src;
+      const plaga = plagasDesdeDB[Math.floor(Math.random() * plagasDesdeDB.length)];
+
+      const dto = {
+        userId: user.id,
+        plagaId: plaga.id,
+        resultado: `Posible presencia de ${plaga.nombre}`,
+        recomendacion: `Consultar manejo recomendado para ${plaga.nombre}`,
+        imagenUrl: fakeUrl,
+        fecha: new Date().toISOString().split("T")[0],
+      };
+
+      try {
+        const res = await fetch("http://localhost:3000/diagnosticos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dto),
+        });
+
+        if (!res.ok) throw new Error("Error al guardar diagnóstico");
+        await cargarDiagnosticos();
+        alert("✅ Diagnóstico generado automáticamente");
+        preview.style.display = "none";
+        enviarBtn.style.display = "none";
+      } catch (err) {
+        alert("Error: " + err.message);
+        console.error(err);
+      }
+    });
+
+    async function cargarDiagnosticos() {
+      try {
+        const res = await fetch(`http://localhost:3000/diagnosticos/buscar?userId=${user.id}`);
+        const lista = await res.json();
+
+        const tbody = document.querySelector("#tabla-diagnosticos tbody");
+        tbody.innerHTML = "";
+
+        lista.forEach(d => {
+          const fila = document.createElement("tr");
+          fila.innerHTML = `
+            <td>${new Date(d.fecha).toLocaleDateString()}</td>
+            <td>${d.resultado}</td>
+            <td>${d.plaga?.nombre || "Desconocida"}</td>
+            <td>${d.recomendacion || "—"}</td>
+          `;
+          tbody.appendChild(fila);
+        });
+      } catch (err) {
+        console.error("Error cargando historial:", err);
+      }
+    }
+
+    cargarPlagasDesdeDB();
+    cargarDiagnosticos();
   </script>
 </body>
 </html>

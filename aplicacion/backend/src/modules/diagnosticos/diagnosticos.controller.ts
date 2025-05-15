@@ -15,6 +15,12 @@ export class DiagnosticosController {
   }
 
   @Get()
+  async findAll() {
+    return this.diagnosticosService.findAll();
+  }
+
+
+  @Get('buscar')
   async getHistorial(
     @Query() filters: FilterDiagnosticoDto & { userId: string }
   ) {

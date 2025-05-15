@@ -1,12 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import admin from '../../firebase-admin'; // ruta relativa al archivo que creaste
+import admin from '../../firebase-admin';
 import { Rol } from '../users/dto/user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // ✅ Autenticación con token de Firebase (usado para Google y email/password)
   async validateFirebaseToken(idToken: string) {
     console.log('⏳ Verificando token recibido...');
 
@@ -44,5 +45,11 @@ export class AuthService {
       console.error('❌ Error al verificar token de Firebase:', err);
       throw new UnauthorizedException('Token inválido o expirado');
     }
+  }
+
+  // ✅ Verifica si un email ya está registrado
+  async checkIfEmailExists(email: string): Promise<{ exists: boolean }> {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    return { exists: !!user };
   }
 }

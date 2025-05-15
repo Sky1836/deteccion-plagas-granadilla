@@ -55,16 +55,39 @@
       background-color: #db4437;
       margin-top: 10px;
     }
+
+    #register-form {
+      display: none;
+    }
+
+    #password,
+    #loginBtn {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <div class="login-box">
-    <h2>Inicia sesión</h2>
+    <h2>Bienvenido</h2>
+
     <input type="email" id="email" placeholder="Correo electrónico" />
+    <button onclick="checkEmail()">Siguiente</button>
+
     <input type="password" id="password" placeholder="Contraseña" />
-    <button onclick="loginEmail()">Entrar</button>
+    <button id="loginBtn">Entrar</button>
+
+    <div id="register-form">
+      <input type="email" id="reg-email" placeholder="Correo electrónico" disabled />
+      <input type="text" id="reg-name" placeholder="Nombre completo" />
+      <input type="text" id="reg-phone" placeholder="Teléfono" />
+      <input type="password" id="reg-password" placeholder="Contraseña" />
+      <input type="password" id="reg-confirm" placeholder="Repetir contraseña" />
+      <button onclick="registerUser()">Registrarse</button>
+    </div>
+
     <button class="google-btn" onclick="loginGoogle()">Entrar con Google</button>
+
     <p id="mensaje"></p>
   </div>
 
@@ -79,39 +102,71 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    async function sendTokenToBackend(token) {
-        try {
-            const res = await fetch('http://localhost:3000/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token }), 
-            });
-
-            const data = await res.json();
-            console.log("Usuario autenticado:", data.user);
-
-            if (data.user.rol === "ADMIN") {
-              window.location.href = "http://127.0.0.1:5500/aplicacion/frontend/diagnosticos.html";
-            } else {
-              window.location.href = "http://127.0.0.1:5500/aplicacion/frontend/agricultor.html";
-            }
-        } catch (err) {
-            console.error("Error al conectar con backend:", err);
-            alert("No se pudo conectar con el servidor");
-        }
+    function mostrarMensaje(texto, color = "red") {
+      const mensaje = document.getElementById("mensaje");
+      mensaje.style.color = color;
+      mensaje.textContent = texto;
     }
 
+    async function checkEmail() {
+      const email = document.getElementById("email").value.trim();
+      if (!email) return mostrarMensaje("Escribe tu correo");
 
-    async function loginEmail() {
-      const email = document.getElementById("email").value;
+      const res = await fetch("http://localhost:3000/auth/check-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (data.exists) {
+        // Muestra campos para login
+        document.getElementById("password").style.display = "block";
+        document.getElementById("loginBtn").style.display = "block";
+        document.getElementById("loginBtn").onclick = () => loginEmail(email);
+        mostrarMensaje("Correo encontrado, ingresa tu contraseña", "green");
+      } else {
+        // Muestra formulario de registro
+        document.getElementById("register-form").style.display = "block";
+        document.getElementById("reg-email").value = email;
+        mostrarMensaje("Correo no registrado, completa el formulario para crear cuenta", "blue");
+      }
+    }
+
+    async function loginEmail(email) {
       const password = document.getElementById("password").value;
-
       try {
-        const result = await auth.createUserWithEmailAndPassword(email, password);
+        const result = await auth.signInWithEmailAndPassword(email, password);
         const token = await result.user.getIdToken();
         sendTokenToBackend(token);
       } catch (err) {
-        alert("Error de autenticación: " + err.message);
+        mostrarMensaje("Error: " + err.message);
+      }
+    }
+
+    async function registerUser() {
+      const email = document.getElementById("reg-email").value;
+      const name = document.getElementById("reg-name").value.trim();
+      const phone = document.getElementById("reg-phone").value.trim();
+      const password = document.getElementById("reg-password").value;
+      const confirm = document.getElementById("reg-confirm").value;
+
+      if (!name || !phone || !password || !confirm) {
+        return mostrarMensaje("Completa todos los campos");
+      }
+      if (password !== confirm) {
+        return mostrarMensaje("Las contraseñas no coinciden");
+      }
+
+      try {
+        const result = await auth.createUserWithEmailAndPassword(email, password);
+        await result.user.updateProfile({ displayName: name });
+
+        const token = await result.user.getIdToken();
+        sendTokenToBackend(token);
+      } catch (err) {
+        mostrarMensaje("Error: " + err.message);
       }
     }
 
@@ -122,7 +177,33 @@
         const token = await result.user.getIdToken();
         sendTokenToBackend(token);
       } catch (err) {
-        alert("Error con Google: " + err.message);
+        mostrarMensaje("Error con Google: " + err.message);
+      }
+    }
+
+    async function sendTokenToBackend(token) {
+      try {
+        const res = await fetch('http://localhost:3000/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token }),
+        });
+
+        const data = await res.json();
+        console.log("Usuario autenticado:", data.user);
+
+        // Almacenar en localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        if (data.user.rol === "ADMIN") {
+          window.location.href = "http://127.0.0.1:5500/aplicacion/frontend/diagnosticos.html";
+        } else {
+          window.location.href = "http://127.0.0.1:5500/aplicacion/frontend/agricultor.html";
+        }
+      } catch (err) {
+        console.error("Error al conectar con backend:", err);
+        mostrarMensaje("No se pudo conectar con el servidor");
       }
     }
   </script>

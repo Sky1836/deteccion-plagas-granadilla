@@ -47,4 +47,16 @@ export class DiagnosticosService {
       },
     });
   }
+
+  // ✅ Nuevo método para admins: obtener todos los diagnósticos
+  async findAll() {
+    return this.prisma.diagnostico.findMany({
+      orderBy: {
+        fecha: 'desc',
+      },
+      include: {
+        plaga: true,
+      },
+    });
+  }
 }

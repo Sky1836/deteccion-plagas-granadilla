@@ -1,0 +1,194 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: #333;
+    margin: 0;
+}
+
+.login-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+}
+
+.login-box .left-container,
+.login-box .right-container {
+    width: 50%;
+    height: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.left-container h1,
+.left-container h5,
+.left-container p {
+    margin: 0;
+    padding: 10px;
+    color: white;
+    z-index: 5;
+    width: 500px;
+}
+
+.left-container h1 {
+    font-size: 35px;
+    margin-top: 150px;
+    text-align: center;
+}
+
+.left-container h5 {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.left-container p {
+    font-size: 18px;
+    text-align: left;
+    font-weight: normal;
+}
+
+.left-container .big-ball,
+.left-container .medium-ball,
+.left-container .small-ball,
+.right-container .medium-ball {
+    background: radial-gradient(circle,
+            #009929 0%,
+            #008f1a 25%,
+            #007c19 50%,
+            #026a0a 70%,
+            #004f05 85%,
+            #003400 100%);
+    position: absolute;
+    border-radius: 50%;
+}
+
+.left-container .big-ball {
+    width: 800px;
+    height: 800px;
+    z-index: 2;
+    top: -150px;
+    left: -100px;
+}
+
+.left-container .medium-ball {
+    width: 500px;
+    height: 500px;
+    z-index: 3;
+    bottom: -200px;
+    left: -200px;
+}
+
+.right-container .medium-ball {
+    width: 300px;
+    height: 300px;
+    z-index: 3;
+    bottom: -150px;
+    right: -150px;
+}
+
+.left-container .small-ball {
+    width: 300px;
+    height: 300px;
+    z-index: 3;
+    bottom: 50px;
+    right: 50px;
+}
+
+.login-box .login-container {
+    color: #000;
+    width: 350px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container h2{
+    margin: 0;
+    color: #001634;
+    font-size: 30px;
+}
+
+.login-container div{
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    margin-top: 50px;
+    padding: 0 10px;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.login-container .password-input{
+    margin-top: 20px;
+}
+
+.login-container input {
+    max-width: 100%;
+    max-height: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    border-radius: 0%;
+    margin: 0;
+    outline: none;
+    font-size: 16px;
+}
+
+.login-container a{
+    text-decoration: none;
+    color: #001634;
+    font-size: 14px;
+    text-align: right;
+}
+
+.login-container button {
+    background-color: #009929;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-container .separador{
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    margin: 20px 0;
+}
+
+
+.separador hr{
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.login-container .google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: #db4437;
+    padding: 10px;
+    width: 100%;
+    border: 2px solid #db4437;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+.login-container .google-btn + p {
+    color: black;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+}

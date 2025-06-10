@@ -108,13 +108,13 @@ body {
     flex-direction: column;
 }
 
-.login-container h2{
+.login-container h2 {
     margin: 0;
     color: #001634;
     font-size: 30px;
 }
 
-.login-container div{
+.login-container div {
     display: flex;
     align-items: center;
     background-color: #f0f0f0;
@@ -124,7 +124,7 @@ body {
     border-radius: 10px;
 }
 
-.login-container .password-input{
+.login-container .password-input {
     margin-top: 20px;
 }
 
@@ -140,7 +140,7 @@ body {
     font-size: 16px;
 }
 
-.login-container a{
+.login-container a {
     text-decoration: none;
     color: #001634;
     font-size: 14px;
@@ -158,7 +158,7 @@ body {
     margin-top: 10px;
 }
 
-.login-container .separador{
+.login-container .separador {
     width: 100%;
     height: 50px;
     background-color: transparent;
@@ -166,7 +166,7 @@ body {
 }
 
 
-.separador hr{
+.separador hr {
     width: 100%;
     height: 1px;
     background-color: #ccc;
@@ -186,9 +186,19 @@ body {
     margin-bottom: 50px;
 }
 
-.login-container .google-btn + p {
+.login-container .google-btn+p {
     color: black;
     font-size: 14px;
     text-align: center;
     margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .login-box .left-container {
+        display: none;
+    }
+
+    .login-box .right-container {
+        width: 100%;
+    }
 }

@@ -3,15 +3,20 @@ import { AppModule } from './modules/app.module';
 import './firebase-admin'; // 👈 Esto asegura que Firebase se inicialice al arrancar
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  try {
+    const app = await NestFactory.create(AppModule);
 
-  app.enableCors({
-    origin: ['http://localhost:3001'],
-    methods: ['POST'],
-    credentials: true,
-  });
+    app.enableCors({
+      origin: ['http://localhost:3001'],
+      methods: ['POST'],
+      credentials: true,
+    });
 
-  await app.listen(3000); // 👈 ESTA LÍNEA ES LA QUE HACE QUE ESCUCHE
-  console.log('🚀 Backend escuchando en http://localhost:3000');
+    await app.listen(3000);
+    console.log('🚀 Backend escuchando en http://localhost:3000');
+  } catch (err) {
+    console.error('❌ Error al iniciar el servidor:', err);
+  }
 }
 bootstrap();
+

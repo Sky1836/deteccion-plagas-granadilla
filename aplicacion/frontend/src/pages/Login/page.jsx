@@ -19,14 +19,6 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [msg, setMsg] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
-  const [regForm, setRegForm] = useState({
-    name: '',
-    phone: '',
-    password: '',
-    confirm: '',
-  });
 
   const auth = firebase.auth();
 
@@ -36,44 +28,26 @@ const LoginPage = () => {
 
   const checkEmail = async () => {
     if (!email.trim()) return mostrarMensaje("Escribe tu correo");
-    const res = await fetch("http://localhost:3000/auth/check-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-
-    const data = await res.json();
-
-    if (data.exists) {
-      setShowPassword(true);
-      mostrarMensaje("Correo encontrado, ingresa tu contraseña", "green");
-    } else {
-      setShowRegister(true);
-      mostrarMensaje("Correo no registrado, completa el formulario", "blue");
+    try {
+      const res = await fetch("http://localhost:3000/auth/check-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!data.exists) {
+        mostrarMensaje("Correo no registrado", "blue");
+      } else {
+        mostrarMensaje("Correo verificado", "green");
+      }
+    } catch (err) {
+      mostrarMensaje("Error al verificar correo");
     }
   };
 
   const loginEmail = async () => {
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
-      const token = await result.user.getIdToken();
-      sendTokenToBackend(token);
-    } catch (err) {
-      mostrarMensaje("Error: " + err.message);
-    }
-  };
-
-  const registerUser = async () => {
-    const { name, phone, password, confirm } = regForm;
-    if (!name || !phone || !password || !confirm)
-      return mostrarMensaje("Completa todos los campos");
-
-    if (password !== confirm)
-      return mostrarMensaje("Las contraseñas no coinciden");
-
-    try {
-      const result = await auth.createUserWithEmailAndPassword(email, password);
-      await result.user.updateProfile({ displayName: name });
       const token = await result.user.getIdToken();
       sendTokenToBackend(token);
     } catch (err) {
@@ -104,9 +78,7 @@ const LoginPage = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      const redirectUrl = data.user.rol === "ADMIN"
-        ? "/admin"
-        : "/agricultor";
+      const redirectUrl = data.user.rol === "ADMIN" ? "/admin" : "/agricultor";
       window.location.href = redirectUrl;
     } catch (err) {
       console.error("Error al conectar con backend:", err);
@@ -124,20 +96,32 @@ const LoginPage = () => {
         <div className='medium-ball'></div>
         <div className='small-ball'></div>
       </div>
+
       <div className='right-container'>
         <div className='login-container'>
-
           <h2>Iniciar sesión</h2>
           <p>Ingresa con tu correo electrónico y contraseña</p>
 
           <div className='email-input'>
             <FontAwesomeIcon icon={faEnvelope} />
-            <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input
+              type="email"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
+
           <div className='password-input'>
             <FontAwesomeIcon icon={faLock} />
-            <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
+
           <a href="#" onClick={checkEmail}>¿Olvidaste tu contraseña?</a>
           <button onClick={loginEmail}>Iniciar sesión</button>
 
@@ -149,22 +133,8 @@ const LoginPage = () => {
             <hr />
           </div>
 
-          {showRegister && (
-            <div id="register-form">
-              <input type="email" value={email} disabled />
-              <input type="text" placeholder="Nombre completo" onChange={e => setRegForm({ ...regForm, name: e.target.value })} />
-              <input type="text" placeholder="Teléfono" onChange={e => setRegForm({ ...regForm, phone: e.target.value })} />
-              <input type="password" placeholder="Contraseña" onChange={e => setRegForm({ ...regForm, password: e.target.value })} />
-              <input type="password" placeholder="Repetir contraseña" onChange={e => setRegForm({ ...regForm, confirm: e.target.value })} />
-              <button onClick={registerUser}>Registrarse</button>
-            </div>
-          )}
-
           <button className="google-btn" onClick={loginGoogle}>Entrar con Google</button>
 
-          <p>
-            ¿No tienes cuenta? <a href="#" onClick={() => setShowRegister(!showRegister)}>Regístrate</a>
-          </p>
           <p style={{ color: msg?.color || 'red' }}>{msg?.text}</p>
         </div>
       </div>

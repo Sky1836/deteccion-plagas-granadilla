@@ -1,5 +1,5 @@
 // Admin/page.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './styles.css';
 
 const urlBase = 'http://localhost:3000';

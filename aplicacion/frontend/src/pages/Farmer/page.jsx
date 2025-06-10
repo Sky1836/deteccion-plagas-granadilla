@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 import './styles.css';
 
 export default function FarmerPage() {
   const [user, setUser] = useState(null);
   const [plagas, setPlagas] = useState([]);
-  const [diagnosticos, setDiagnosticos] = useState([]);
-  const [imageData, setImageData] = useState(null);
+  const [showCamera, setShowCamera] = useState(false);
+  const [preview, setPreview] = useState(null);
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -18,23 +22,38 @@ export default function FarmerPage() {
       return;
     }
 
-    const parsedUser = JSON.parse(storedUser);
-    setUser(parsedUser);
-
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-      .then(stream => {
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      })
-      .catch(err => {
-        alert("No se pudo acceder a la cámara");
-        console.error(err);
-      });
-
+    setUser(JSON.parse(storedUser));
     cargarPlagas();
-    cargarDiagnosticos(parsedUser.id);
   }, []);
+
+  useEffect(() => {
+    if (showCamera && !preview) {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+          }
+        })
+        .catch(err => {
+          alert("No se pudo acceder a la cámara");
+          console.error(err);
+        });
+    }
+  }, [showCamera, preview]);
+
+  const cerrarCamara = () => {
+    const stream = videoRef.current?.srcObject;
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+  };
+
+  const abrirCamara = () => {
+    cerrarCamara();
+    setPreview(null);
+    setShowCamera(true);
+  };
 
   const cargarPlagas = async () => {
     try {
@@ -46,102 +65,78 @@ export default function FarmerPage() {
     }
   };
 
-  const cargarDiagnosticos = async (userId) => {
-    try {
-      const res = await fetch(`http://localhost:3000/diagnosticos/buscar?userId=${userId}`);
-      const data = await res.json();
-      setDiagnosticos(data);
-    } catch (err) {
-      console.error("Error cargando historial:", err);
-    }
-  };
-
   const capturarFoto = () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
-    if (canvas && video) {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas.getContext('2d').drawImage(video, 0, 0);
-      const dataUrl = canvas.toDataURL('image/jpeg');
-      setImageData(dataUrl);
-    }
+    if (!canvas || !video) return;
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    const dataUrl = canvas.toDataURL('image/jpeg');
+    setPreview(dataUrl);
+    cerrarCamara();
   };
 
-  const enviarDiagnostico = async () => {
-    if (!user || !imageData || plagas.length === 0) return;
+  const aceptarDiagnostico = () => {
+    if (!preview || plagas.length === 0) {
+      alert('No hay imagen o plagas cargadas');
+      return;
+    }
 
     const plaga = plagas[Math.floor(Math.random() * plagas.length)];
-
-    const dto = {
-      userId: user.id,
-      plagaId: plaga.id,
-      resultado: `Posible presencia de ${plaga.nombre}`,
-      recomendacion: `Consultar manejo recomendado para ${plaga.nombre}`,
-      imagenUrl: imageData,
-      fecha: new Date().toISOString().split("T")[0],
+    const diagnostico = {
+      resultado: `Posible presencia de ${plaga?.nombre || 'una plaga desconocida'}`,
+      recomendacion: `Consultar manejo recomendado para ${plaga?.nombre || 'esta plaga'}`,
+      plaga: plaga?.nombre || 'Desconocida',
+      imagen: preview,
+      fecha: new Date().toISOString(),
     };
-
-    try {
-      const res = await fetch("http://localhost:3000/diagnosticos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dto),
-      });
-
-      if (!res.ok) throw new Error("Error al guardar diagnóstico");
-      await cargarDiagnosticos(user.id);
-      alert("✅ Diagnóstico generado automáticamente");
-      setImageData(null);
-    } catch (err) {
-      alert("Error: " + err.message);
-      console.error(err);
-    }
+    localStorage.setItem('capturedImage', preview);
+    localStorage.setItem('mockDiagnostico', JSON.stringify(diagnostico));
+    setShowCamera(false);
+    navigate('/diagnostico');
   };
 
   return (
     <div className='farmer-page'>
-      <div className="card">
-        <h2>👨‍🌾 Perfil del Agricultor</h2>
-        <p><strong>Nombre:</strong> {user?.nombre || 'Cargando...'}</p>
-        <p><strong>Email:</strong> {user?.email || 'Cargando...'}</p>
-        <p><strong>Teléfono:</strong> {user?.telefono || 'No registrado'}</p>
-        <p><strong>Rol:</strong> {user?.rol || 'Cargando...'}</p>
-        <p><strong>Registrado el:</strong> {user ? new Date(user.createdAt).toLocaleDateString() : 'Cargando...'}</p>
+      <h1>Bienvenido, <b>{user?.nombre || 'Cargando...'}</b></h1>
+
+      <div className="camara-contenedor">
+        <h3 className="titulo">Sane su cultivo</h3>
+        <div className="pasos">
+          <div className="paso"><div className="icono hoja" /><p>Tomar una<br />foto</p></div>
+          <span className="flecha">➔</span>
+          <div className="paso"><div className="icono diagnostico" /><p>Ver<br />diagnóstico</p></div>
+          <span className="flecha">➔</span>
+          <div className="paso"><div className="icono tratamiento" /><p>Obtener el<br />tratamiento</p></div>
+        </div>
+        <button className="boton-foto" onClick={abrirCamara}>Tomar una foto</button>
       </div>
 
-      <div className="card">
-        <h2>📷 Tomar Foto del Cultivo</h2>
-        <video ref={videoRef} autoPlay playsInline />
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
-        {imageData && <img id="preview" src={imageData} alt="captura" />}
-        <button onClick={capturarFoto}>Tomar Foto</button>
-        {imageData && <button onClick={enviarDiagnostico}>Detectar Plaga</button>}
-      </div>
+      <div className='card'><p>Ver historial de consultas</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
+      <div className='card'><p>Trips de cítricos</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
+      <div className='card'><p>Huanglongbing (HLB) de los cítricos</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
 
-      <div className="card">
-        <h2>📄 Historial de Diagnósticos</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Resultado</th>
-              <th>Plaga</th>
-              <th>Recomendación</th>
-            </tr>
-          </thead>
-          <tbody>
-            {diagnosticos.map((d, i) => (
-              <tr key={i}>
-                <td>{new Date(d.fecha).toLocaleDateString()}</td>
-                <td>{d.resultado}</td>
-                <td>{d.plaga?.nombre || "Desconocida"}</td>
-                <td>{d.recomendacion || "—"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {showCamera && (
+        <div className="pantalla-camara">
+          {!preview ? (
+            <>
+              <video ref={videoRef} autoPlay playsInline muted className="video-camara" />
+              <button className="boton-captura" onClick={capturarFoto}></button>
+            </>
+          ) : (
+            <>
+              <img src={preview} alt="captura" className="preview-img" />
+              <div className="botones-acciones">
+                <button className="boton-repetir" onClick={abrirCamara}>Repetir</button>
+                <button className="boton-aceptar" onClick={aceptarDiagnostico}>Aceptar</button>
+              </div>
+            </>
+          )}
+          <canvas ref={canvasRef} style={{ display: 'none' }} />
+        </div>
+      )}
     </div>
   );
 }

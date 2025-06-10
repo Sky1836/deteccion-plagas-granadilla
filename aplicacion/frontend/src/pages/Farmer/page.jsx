@@ -114,7 +114,7 @@ export default function FarmerPage() {
         <button className="boton-foto" onClick={abrirCamara}>Tomar una foto</button>
       </div>
 
-      <div className='card'><p>Ver historial de consultas</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
+      <div onClick={() => window.location.href = '/historial'} className='card'><p>Ver historial de consultas</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
       <div className='card'><p>Trips de cítricos</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
       <div className='card'><p>Huanglongbing (HLB) de los cítricos</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
 

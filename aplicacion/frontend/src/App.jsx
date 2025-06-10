@@ -4,6 +4,7 @@ import LoginPage from './pages/Login/page';
 import FarmerPage from './pages/Farmer/page';
 import AdminPage from './pages/Admin/page'; // Asegúrate de que esta ruta sea correcta
 import Diagnostico from './pages/Diagnostico/page';
+import Historial from './pages/Historial/page';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/agricultor" element={<FarmerPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path='/diagnostico' element={<Diagnostico />} />
+        <Route path="/historial" element={<Historial />} />
         {/* Puedes agregar más rutas aquí según sea necesario */}
       </Routes>
     </Router>

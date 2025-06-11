@@ -177,3 +177,9 @@
 .table-container{
     overflow-x: auto;
 }
+
+
+.section-header.logout{
+    background-color: red;
+    color: white;
+}

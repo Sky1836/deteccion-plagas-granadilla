@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faChevronDown, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 
 const urlBase = 'http://localhost:3000';
@@ -201,6 +201,10 @@ export default function AdminPanel() {
                     </form>
                 </div>
             )}
+
+            <div className="section-header logout" onClick={() => window.location.href="/login"}>
+                <FontAwesomeIcon icon={faRightFromBracket} /> Cerrar sesión
+            </div>
         </div>
     );
 }

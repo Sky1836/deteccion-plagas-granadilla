@@ -1,4 +1,3 @@
-'use client';
 import React, { useState } from 'react';
 import './styles.css';
 import firebase from 'firebase/compat/app';
@@ -124,6 +123,8 @@ const LoginPage = () => {
 
           <a href="#" onClick={checkEmail}>¿Olvidaste tu contraseña?</a>
           <button onClick={loginEmail}>Iniciar sesión</button>
+          
+          <span className='link-span'>¿No tienes cuenta? <a href='/register'>Regístrate</a></span>
 
           <div className='medium-ball'></div>
 

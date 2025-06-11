@@ -143,7 +143,7 @@ body {
 .login-container a {
     text-decoration: none;
     color: #001634;
-    font-size: 14px;
+    font-size: 16px;
     text-align: right;
 }
 
@@ -201,4 +201,14 @@ body {
     .login-box .right-container {
         width: 100%;
     }
+}
+
+.login-container .link-span{
+    font-size: 16px;
+    color: black;
+    margin-top: 15px;
+}
+
+.email-input.register{
+    margin-top: 20px;
 }

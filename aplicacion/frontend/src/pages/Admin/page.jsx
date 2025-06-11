@@ -103,9 +103,20 @@ export default function AdminPanel() {
                     </form>
                     <div className="seccion">
                         <h2>Plagas Registradas</h2>
-                        <table><thead><tr><th>ID</th><th>Nombre</th><th>Tipo</th></tr></thead><tbody>
-                            {plagas.map(p => <tr key={p.id}><td>{p.id}</td><td>{p.nombre}</td><td>{p.tipo}</td></tr>)}
-                        </tbody></table>
+                        <table>
+                            <thead>
+                                <tr><th>Nombre</th><th>Tipo</th><th>Descripción</th></tr>
+                            </thead>
+                            <tbody>
+                                {plagas.map(p => (
+                                    <tr key={p.id}>
+                                        <td>{p.nombre}</td>
+                                        <td>{p.tipo}</td>
+                                        <td>{p.descripcion}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </>
             )}
@@ -126,12 +137,25 @@ export default function AdminPanel() {
                     </form>
                     <div className="seccion">
                         <h2>Insecticidas Registrados</h2>
-                        <table><thead><tr><th>ID</th><th>Nombre</th><th>Plaga</th></tr></thead><tbody>
-                            {insecticidas.map(i => <tr key={i.id}><td>{i.id}</td><td>{i.nombre}</td><td>{i.plaga?.nombre || '-'}</td></tr>)}
-                        </tbody></table>
+                        <table>
+                            <thead>
+                                <tr><th>Nombre</th><th>Compuesto</th><th>Aplicación</th><th>Plaga</th></tr>
+                            </thead>
+                            <tbody>
+                                {insecticidas.map(i => (
+                                    <tr key={i.id}>
+                                        <td>{i.nombre}</td>
+                                        <td>{i.compuesto}</td>
+                                        <td>{i.aplicacion}</td>
+                                        <td>{i.plaga?.nombre || '-'}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </>
             )}
+
 
             {vista === 'diagnosticos' && (
                 <div className="seccion">

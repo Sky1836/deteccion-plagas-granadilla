@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faChevronDown, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faChevronDown, faRightFromBracket, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 
 const urlBase = 'http://localhost:3000';
@@ -99,7 +99,10 @@ export default function AdminPanel() {
             <div className={`section-body-wrapper ${expanded.plagas ? 'expand' : 'collapse'}`}>
                 {expanded.plagas && (
                     <div className="section-body">
-                        <button onClick={() => setModal('plaga')} className="add-button">+ Añadir nueva plaga</button>
+                        <button onClick={() => setModal('plaga')} className="add-button">
+                            <FontAwesomeIcon icon={faPlus} />
+                            Añadir nueva plaga
+                        </button>
                         <div className="table-container">
                             <table className="admin-table">
                                 <thead>
@@ -122,7 +125,10 @@ export default function AdminPanel() {
             <div className={`section-body-wrapper ${expanded.insecticidas ? 'expand' : 'collapse'}`}>
                 {expanded.insecticidas && (
                     <div className="section-body">
-                        <button onClick={() => setModal('insecticida')} className="add-button">+ Añadir insecticida</button>
+                        <button onClick={() => setModal('insecticida')} className="add-button">
+                            <FontAwesomeIcon icon={faPlus} />
+                            Añadir insecticida
+                        </button>
                         <div className='table-container'>
                             <table className="admin-table">
                                 <thead>
@@ -202,7 +208,7 @@ export default function AdminPanel() {
                 </div>
             )}
 
-            <div className="section-header logout" onClick={() => window.location.href="/login"}>
+            <div className="section-header logout" onClick={() => window.location.href = "/login"}>
                 <FontAwesomeIcon icon={faRightFromBracket} /> Cerrar sesión
             </div>
         </div>

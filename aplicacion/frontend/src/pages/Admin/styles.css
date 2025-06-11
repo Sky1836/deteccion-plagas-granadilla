@@ -35,7 +35,7 @@
 }
 
 .admin-table {
-    width: auto;
+    width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
 }
@@ -60,6 +60,10 @@
     margin-bottom: 1rem;
     border-radius: 6px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
 
 .add-button:hover {
@@ -83,7 +87,7 @@
     background: white;
     padding: 2rem;
     border-radius: 12px;
-    width: 100%;
+    width: 80%;
     max-width: 500px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -131,7 +135,7 @@
 }
 
 .modal-actions button[type='button'] {
-    background-color: #ccc;
+    background-color: red;
 }
 
 .section-body-wrapper {

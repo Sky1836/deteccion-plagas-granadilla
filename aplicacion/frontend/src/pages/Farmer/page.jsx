@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
+import MenuDesplegable from '../../components/MenuDesplegable';
 
 export default function FarmerPage() {
   const [user, setUser] = useState(null);
@@ -99,44 +98,49 @@ export default function FarmerPage() {
   };
 
   return (
-    <div className='farmer-page'>
-      <h1>Bienvenido, <b>{user?.nombre || 'Cargando...'}</b></h1>
+    <>
+      <MenuDesplegable
+        userName={user?.nombre}
+        onNavigate={(seccion) => {
+          if (seccion === 'inicio') return;
+          if (seccion === 'historial') navigate('/historial');
+          if (seccion === 'trips') alert("Trips aún no implementado");
+          if (seccion === 'hlb') alert("HLB aún no implementado");
+        }}
+      />
+      <div className='farmer-page'>
 
-      <div className="camara-contenedor">
-        <h3 className="titulo">Sane su cultivo</h3>
-        <div className="pasos">
-          <div className="paso"><div className="icono hoja" /><p>Tomar una<br />foto</p></div>
-          <span className="flecha">➔</span>
-          <div className="paso"><div className="icono diagnostico" /><p>Ver<br />diagnóstico</p></div>
-          <span className="flecha">➔</span>
-          <div className="paso"><div className="icono tratamiento" /><p>Obtener el<br />tratamiento</p></div>
+        <div className="camara-contenedor">
+          <h3 className="titulo">Sane su cultivo</h3>
+          <div className="pasos">
+            <div className="paso"><div className="icono hoja" /><p>Tomar una<br />foto</p></div>
+            <span className="flecha">➔</span>
+            <div className="paso"><div className="icono diagnostico" /><p>Ver<br />diagnóstico</p></div>
+            <span className="flecha">➔</span>
+            <div className="paso"><div className="icono tratamiento" /><p>Obtener el<br />tratamiento</p></div>
+          </div>
+          <button className="boton-foto" onClick={abrirCamara}>Tomar una foto</button>
         </div>
-        <button className="boton-foto" onClick={abrirCamara}>Tomar una foto</button>
+        {showCamera && (
+          <div className="pantalla-camara">
+            {!preview ? (
+              <>
+                <video ref={videoRef} autoPlay playsInline muted className="video-camara" />
+                <button className="boton-captura" onClick={capturarFoto}></button>
+              </>
+            ) : (
+              <>
+                <img src={preview} alt="captura" className="preview-img" />
+                <div className="botones-acciones">
+                  <button className="boton-repetir" onClick={abrirCamara}>Repetir</button>
+                  <button className="boton-aceptar" onClick={aceptarDiagnostico}>Aceptar</button>
+                </div>
+              </>
+            )}
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
+          </div>
+        )}
       </div>
-
-      <div onClick={() => window.location.href = '/historial'} className='card'><p>Ver historial de consultas</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
-      <div className='card'><p>Trips de cítricos</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
-      <div className='card'><p>Huanglongbing (HLB) de los cítricos</p><FontAwesomeIcon icon={faChevronRight} className="icono-flecha" /></div>
-
-      {showCamera && (
-        <div className="pantalla-camara">
-          {!preview ? (
-            <>
-              <video ref={videoRef} autoPlay playsInline muted className="video-camara" />
-              <button className="boton-captura" onClick={capturarFoto}></button>
-            </>
-          ) : (
-            <>
-              <img src={preview} alt="captura" className="preview-img" />
-              <div className="botones-acciones">
-                <button className="boton-repetir" onClick={abrirCamara}>Repetir</button>
-                <button className="boton-aceptar" onClick={aceptarDiagnostico}>Aceptar</button>
-              </div>
-            </>
-          )}
-          <canvas ref={canvasRef} style={{ display: 'none' }} />
-        </div>
-      )}
-    </div>
+    </>
   );
 }

@@ -1,71 +1,179 @@
-/* styles.css */
 .admin-container {
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #eef2f3, #cfd9df);
     padding: 2rem;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.admin-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #009929;
+    font-weight: 500;
+}
+
+.section-header {
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #f0f4f8;
+    border-radius: 8px;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-h1,
-h2 {
-    color: #003366;
-}
-
-.form,
-.seccion {
+.section-body {
+    margin-top: 1rem;
     background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-    margin-bottom: 30px;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-label {
-    display: block;
-    margin-top: 12px;
-    font-weight: 600;
-    color: #333;
+.admin-table {
+    width: auto;
+    border-collapse: collapse;
+    margin-top: 1rem;
 }
 
-input,
-select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 4px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
+.admin-table th,
+.admin-table td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    text-align: left;
 }
 
-button {
-    margin-top: 20px;
-    padding: 10px;
-    width: 100%;
-    border: none;
-    border-radius: 6px;
-    background-color: #003366;
+.admin-table th {
+    background-color: #009929;
     color: white;
-    font-size: 16px;
+}
+
+.add-button {
+    background-color: #007c19;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0059b3;
+.add-button:hover {
+    background-color: #005f14;
 }
 
-table {
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    margin-top: 15px;
-    border-collapse: collapse;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 }
 
-th,
-td {
-    padding: 8px;
+.modal-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-form h2 {
+    margin-top: 0;
+    color: #009929;
+}
+
+.modal-form label {
+    display: block;
+    margin-top: 1rem;
+}
+
+.modal-form input,
+.modal-form select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    border-radius: 6px;
     border: 1px solid #ccc;
-    text-align: left;
+}
+
+.modal-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.modal-actions button {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-actions button[type='submit'] {
+    background-color: #007c19;
+    color: white;
+}
+
+.modal-actions button[type='submit']:hover {
+    background-color: #005f14;
+}
+
+.modal-actions button[type='button'] {
+    background-color: #ccc;
+}
+
+.section-body-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.section-body-wrapper.expand {
+    max-height: 1000px;
+    /* suficiente para mostrar el contenido */
+    opacity: 1;
+}
+
+.section-body-wrapper.collapse {
+    max-height: 0;
+    opacity: 0;
+}
+
+.section-header {
+    transition: background-color 0.3s ease;
+}
+
+.section-header:hover {
+    background-color: #e0ecf8;
+}
+
+.modal {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.table-container{
+    overflow-x: auto;
 }

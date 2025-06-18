@@ -73,6 +73,10 @@
     border-radius: 6px;
 }
 
+.control-organico p{
+    text-align: justify;
+}
+
 .guardar-button {
     display: block;
     width: 100%;

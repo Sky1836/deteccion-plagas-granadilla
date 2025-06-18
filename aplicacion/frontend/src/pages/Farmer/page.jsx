@@ -77,25 +77,56 @@ export default function FarmerPage() {
     cerrarCamara();
   };
 
-  const aceptarDiagnostico = () => {
-    if (!preview || plagas.length === 0) {
-      alert('No hay imagen o plagas cargadas');
+  const aceptarDiagnostico = async () => {
+    if (!preview) {
+      alert('No hay imagen capturada');
       return;
     }
 
-    const plaga = plagas[Math.floor(Math.random() * plagas.length)];
-    const diagnostico = {
-      resultado: `Posible presencia de ${plaga?.nombre || 'una plaga desconocida'}`,
-      recomendacion: `Consultar manejo recomendado para ${plaga?.nombre || 'esta plaga'}`,
-      plaga: plaga?.nombre || 'Desconocida',
-      imagen: preview,
-      fecha: new Date().toISOString(),
-    };
-    localStorage.setItem('capturedImage', preview);
-    localStorage.setItem('mockDiagnostico', JSON.stringify(diagnostico));
-    setShowCamera(false);
-    navigate('/diagnostico');
+    try {
+      // Convertir base64 a blob
+      const blob = await fetch(preview).then(res => res.blob());
+
+      // Armar formData
+      const formData = new FormData();
+      formData.append('imagen', blob, 'captura.jpg');
+
+      // Enviar al backend NestJS (localhost o dominio real)
+      const res = await fetch('http://localhost:3000/detector', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!data.detecciones || data.detecciones.length === 0) {
+        alert('No se detectaron plagas');
+        return;
+      }
+
+      const plagaDetectada = data.detecciones[0]?.clase || 'Desconocida';
+
+      const diagnostico = {
+        resultado: `Plaga detectada: ${plagaDetectada}`,
+        recomendacion: `Consultar tratamiento para ${plagaDetectada}`,
+        plaga: plagaDetectada,
+        confianza: data.detecciones[0].confianza,
+        imagen: preview,
+        fecha: new Date().toISOString(),
+      };
+
+      // Guardar para mostrar en vista Diagnóstico
+      localStorage.setItem('capturedImage', preview);
+      localStorage.setItem('mockDiagnostico', JSON.stringify(diagnostico));
+
+      setShowCamera(false);
+      navigate('/diagnostico');
+    } catch (error) {
+      console.error('Error al diagnosticar:', error);
+      alert('Ocurrió un error al enviar la imagen');
+    }
   };
+
 
   return (
     <>

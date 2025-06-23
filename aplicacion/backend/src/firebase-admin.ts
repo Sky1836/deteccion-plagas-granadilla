@@ -1,9 +1,14 @@
 import * as admin from 'firebase-admin';
-import * as serviceAccount from '../secrets/firebase-service-account.json'; // 👈 Ajusta la ruta al JSON que descargaste desde Firebase
+
+const firebaseParams = {
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+};
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+    credential: admin.credential.cert(firebaseParams),
   });
 }
 

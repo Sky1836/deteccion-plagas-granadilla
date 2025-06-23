@@ -13,7 +13,7 @@ async function bootstrap() {
     });
 
     await app.listen(3000);
-    console.log('🚀 Backend escuchando en http://localhost:3000');
+    console.log('🚀 Backend escuchando en https://deteccion-plagas-granadilla-production.up.railway.app');
   } catch (err) {
     console.error('❌ Error al iniciar el servidor:', err);
   }

@@ -16,7 +16,7 @@ export default function Historial() {
             return;
         }
 
-        fetch(`http://localhost:3000/diagnosticos/buscar?userId=${storedUser.id}`)
+        fetch(`https://deteccion-plagas-granadilla-production.up.railway.app/diagnosticos/buscar?userId=${storedUser.id}`)
             .then(res => res.json())
             .then(data => setDiagnosticos(data))
             .catch(err => {

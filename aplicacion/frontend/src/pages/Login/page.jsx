@@ -28,7 +28,7 @@ const LoginPage = () => {
   const checkEmail = async () => {
     if (!email.trim()) return mostrarMensaje("Escribe tu correo");
     try {
-      const res = await fetch("http://localhost:3000/auth/check-email", {
+      const res = await fetch("https://deteccion-plagas-granadilla-production.up.railway.app/auth/check-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -67,7 +67,7 @@ const LoginPage = () => {
 
   const sendTokenToBackend = async (token) => {
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
+      const res = await fetch('https://deteccion-plagas-granadilla-production.up.railway.app/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token }),

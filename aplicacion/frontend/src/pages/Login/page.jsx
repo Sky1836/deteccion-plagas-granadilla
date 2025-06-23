@@ -16,33 +16,9 @@ if (!firebase.apps.length) {
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
-  const [msg, setMsg] = useState('');
   const [password, setPassword] = useState('');
 
   const auth = firebase.auth();
-
-  const mostrarMensaje = (texto, color = "red") => {
-    setMsg({ text: texto, color });
-  };
-
-  const checkEmail = async () => {
-    if (!email.trim()) return mostrarMensaje("Escribe tu correo");
-    try {
-      const res = await fetch("https://deteccion-plagas-granadilla-production.up.railway.app/auth/check-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (!data.exists) {
-        mostrarMensaje("Correo no registrado", "blue");
-      } else {
-        mostrarMensaje("Correo verificado", "green");
-      }
-    } catch (err) {
-      mostrarMensaje("Error al verificar correo");
-    }
-  };
 
   const loginEmail = async () => {
     try {
@@ -50,7 +26,7 @@ const LoginPage = () => {
       const token = await result.user.getIdToken();
       sendTokenToBackend(token);
     } catch (err) {
-      mostrarMensaje("Error: " + err.message);
+      alert("Error: " + err.message);
     }
   };
 
@@ -61,7 +37,7 @@ const LoginPage = () => {
       const token = await result.user.getIdToken();
       sendTokenToBackend(token);
     } catch (err) {
-      mostrarMensaje("Error con Google: " + err.message);
+      alert("Error con Google: " + err.message);
     }
   };
 
@@ -81,9 +57,27 @@ const LoginPage = () => {
       window.location.href = redirectUrl;
     } catch (err) {
       console.error("Error al conectar con backend:", err);
-      mostrarMensaje("No se pudo conectar con el servidor");
+      alert("No se pudo conectar con el servidor");
     }
   };
+
+  const recuperarContrasena = async () => {
+    if (!email.trim()) {
+      return alert("Ingresa tu correo para recuperar la contraseña");
+    }
+    try {
+      await auth.sendPasswordResetEmail(email);
+      alert("Correo enviado. Revisa tu bandeja de entrada");
+    } catch (error) {
+      console.error("Error al enviar correo:", error);
+      if (error.code === "auth/user-not-found") {
+        alert("Este correo no está registrado", "blue");
+      } else {
+        alert("Hubo un error al enviar el correo. Intenta nuevamente");
+      }
+    }
+  };
+
 
   return (
     <div className="login-box">
@@ -121,9 +115,9 @@ const LoginPage = () => {
             />
           </div>
 
-          <a href="#" onClick={checkEmail}>¿Olvidaste tu contraseña?</a>
+          <a href="#" onClick={recuperarContrasena}>¿Olvidaste tu contraseña?</a>
           <button onClick={loginEmail}>Iniciar sesión</button>
-          
+
           <span className='link-span'>¿No tienes cuenta? <a href='/register'>Regístrate</a></span>
 
           <div className='medium-ball'></div>
@@ -136,7 +130,6 @@ const LoginPage = () => {
 
           <button className="google-btn" onClick={loginGoogle}>Entrar con Google</button>
 
-          <p style={{ color: msg?.color || 'red' }}>{msg?.text}</p>
         </div>
       </div>
     </div>

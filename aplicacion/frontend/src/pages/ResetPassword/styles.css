@@ -1,0 +1,31 @@
+.reset-box {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #ccc;
+    text-align: center;
+}
+
+.reset-box input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.reset-box button {
+    padding: 0.8rem 1.5rem;
+    background: #0a8025;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.reset-box button:hover {
+    background: #066a1d;
+}

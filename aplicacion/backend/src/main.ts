@@ -7,7 +7,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     app.enableCors({
-      origin: ['http://localhost:3000'],
+      origin: ['http://localhost:3000', 'https://deteccion-plagas-granadilla.vercel.app', 'https://granashield.com'],
       methods: ['POST'],
       credentials: true,
     });

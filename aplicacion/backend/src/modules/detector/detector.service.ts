@@ -12,7 +12,7 @@ export class DetectorService {
         const form = new FormData();
         form.append('file', createReadStream(path));
 
-        const response$ = this.http.post('http://localhost:9000/detectar', form, {
+        const response$ = this.http.post('https://ia.granashield.com/detectar', form, {
             headers: form.getHeaders(),
         });
 

@@ -56,7 +56,7 @@ export default function FarmerPage() {
 
   const cargarPlagas = async () => {
     try {
-      const res = await fetch('https://deteccion-plagas-granadilla-production.up.railway.app/plagas');
+      const res = await fetch('https://api.granashield.com/plagas');
       const data = await res.json();
       setPlagas(data);
     } catch (err) {
@@ -92,7 +92,7 @@ export default function FarmerPage() {
       formData.append('imagen', blob, 'captura.jpg');
 
       // Enviar al backend NestJS (localhost o dominio real)
-      const res = await fetch('https://deteccion-plagas-granadilla-production.up.railway.app/detector', {
+      const res = await fetch('https://api.granashield.com/detector', {
         method: 'POST',
         body: formData,
       });

@@ -33,7 +33,7 @@ const RegisterPage = () => {
         try {
             const result = await auth.createUserWithEmailAndPassword(email, password);
             const token = await result.user.getIdToken();
-            await fetch('https://deteccion-plagas-granadilla-production.up.railway.app/auth/register', {
+            await fetch('https://api.granashield.com/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

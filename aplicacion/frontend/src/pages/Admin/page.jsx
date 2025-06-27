@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown, faRightFromBracket, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 
-const urlBase = 'https://deteccion-plagas-granadilla-production.up.railway.app';
+const urlBase = 'https://api.granashield.com';
 
 export default function AdminPanel() {
     const [vista, setVista] = useState('');

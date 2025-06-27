@@ -19,7 +19,7 @@ export default function Historial() {
 
         setUser(storedUser);
 
-        fetch(`https://deteccion-plagas-granadilla-production.up.railway.app/diagnosticos/buscar?userId=${storedUser.id}`)
+        fetch(`https://api.granashield.com/diagnosticos/buscar?userId=${storedUser.id}`)
             .then(res => res.json())
             .then(data => setDiagnosticos(data))
             .catch(err => {

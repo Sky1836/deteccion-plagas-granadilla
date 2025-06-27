@@ -43,7 +43,7 @@ const LoginPage = () => {
 
   const sendTokenToBackend = async (token) => {
     try {
-      const res = await fetch('https://deteccion-plagas-granadilla-production.up.railway.app/auth/login', {
+      const res = await fetch('https://api.granashield.com/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token }),

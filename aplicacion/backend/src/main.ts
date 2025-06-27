@@ -14,7 +14,7 @@ async function bootstrap() {
     });
 
     await app.listen(3000);
-    console.log('🚀 Backend escuchando en https://deteccion-plagas-granadilla-production.up.railway.app');
+    console.log('🚀 Backend escuchando en https://api.granashield.com');
   } catch (err) {
     console.error('❌ Error al iniciar el servidor:', err);
   }

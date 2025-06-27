@@ -8,7 +8,8 @@ async function bootstrap() {
 
     app.enableCors({
       origin: ['http://localhost:3000', 'https://deteccion-plagas-granadilla.vercel.app', 'https://granashield.com'],
-      methods: ['POST'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
     });
 

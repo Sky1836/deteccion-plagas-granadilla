@@ -5,7 +5,7 @@ from PIL import Image
 import io
 
 app = FastAPI()
-model = YOLO("best.pt")
+model = YOLO("https://imagenes-granadilla-cielo.s3.us-east-2.amazonaws.com/best.pt")
 
 app.add_middleware(
     CORSMiddleware,

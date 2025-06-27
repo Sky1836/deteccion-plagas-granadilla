@@ -13,7 +13,7 @@ async function bootstrap() {
       credentials: true,
     });
 
-    await app.listen(3000);
+    await app.listen(process.env.PORT || 3000);
     console.log('🚀 Backend escuchando en https://api.granashield.com');
   } catch (err) {
     console.error('❌ Error al iniciar el servidor:', err);

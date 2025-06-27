@@ -6,6 +6,9 @@ import { DiagnosticosModule } from './diagnosticos/diagnosticos.module';
 import { PlagasModule } from './plagas/plagas.module';
 import { InsecticidasModule } from './insecticidas/insecticidas.module';
 import { DetectorModule } from './detector/detector.module';
+import { S3Service } from './upload/s3.service';
+import { UploadController } from './upload/upload.controller';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -16,6 +19,9 @@ import { DetectorModule } from './detector/detector.module';
     PlagasModule,
     InsecticidasModule,
     DetectorModule,
-  ]
+    UploadModule,
+  ],
+  providers: [S3Service],
+  controllers: [UploadController]
 })
 export class AppModule {}

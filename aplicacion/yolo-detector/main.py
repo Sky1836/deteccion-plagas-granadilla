@@ -43,18 +43,25 @@ async def detectar(file: UploadFile = File(...)):
     # ▶️ Ejecutar inferencia
     outputs = session.run(None, {"images": img})
     predictions = outputs[0]  # (num_detections, 6)
+    
+    # 🔒 Función segura para convertir a float
+    def to_scalar(x):
+        if isinstance(x, (list, np.ndarray)):
+            return float(x[0])
+        if hasattr(x, "item"):
+            return x.item()
+        return float(x)
 
     detecciones = []
     for pred in predictions:
         if len(pred) < 6:
-            continue  # predicción incompleta
+            continue
 
-        # ✅ Maneja arrays tipo np.array([0.85])
-        conf = float(pred[4].item() if hasattr(pred[4], "item") else pred[4])
-        cls_idx = int(pred[5].item() if hasattr(pred[5], "item") else pred[5])
+        conf = to_scalar(pred[4])
+        cls_idx = int(to_scalar(pred[5]))
 
         if conf < 0.4:
-            continue  # ignorar predicciones débiles
+            continue
 
         clase = CLASSES[cls_idx] if 0 <= cls_idx < len(CLASSES) else "desconocido"
         detecciones.append({

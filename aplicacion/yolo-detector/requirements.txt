@@ -3,6 +3,7 @@ uvicorn
 pillow
 python-multipart
 numpy
+openai
 onnxruntime
 requests
 printfarmdetector

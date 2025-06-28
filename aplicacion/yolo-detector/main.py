@@ -52,9 +52,6 @@ async def detectar(file: UploadFile = File(...)):
 
     detecciones = []
     for pred in predictions:
-        if pred[4] < 0.01 and pred[5] < 0.01:
-            continue  # Ignorar predicciones vacías
-
         conf = to_scalar(pred[4])
         cls_idx = int(to_scalar(pred[5]))
 

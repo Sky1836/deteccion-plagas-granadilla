@@ -6,10 +6,8 @@ import numpy as np
 import onnxruntime as ort
 import requests
 
-# ✅ Inicia FastAPI
 app = FastAPI()
 
-# ✅ CORS seguro para tu frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://api.granashield.com"],
@@ -18,21 +16,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Descargar el modelo desde S3 y cargarlo en memoria
-url = "https://imagenes-granadilla-cielo.s3.us-east-2.amazonaws.com/best.onnx"
+# 📥 Descargar modelo ONNX con NMS desde S3
+url = "https://imagenes-granadilla-cielo.s3.us-east-2.amazonaws.com/best-nms.onnx"
 response = requests.get(url)
 model_bytes = io.BytesIO(response.content)
 session = ort.InferenceSession(model_bytes.read(), providers=["CPUExecutionProvider"])
 
-# ✅ Clases del modelo (ajusta según tu entrenamiento)
-CLASSES = ["trip", "acaro", "otra_clase"]  # ← cambia esto si tienes otras clases
+# ✅ Clases reales del modelo
+CLASSES = [
+    "Granadilla Enferma",
+    "Granadilla Sana",
+    "Hoja Enferma",
+    "Hoja Sana"
+]
 
 @app.post("/detectar")
 async def detectar(file: UploadFile = File(...)):
-    # 📥 Leer y preparar la imagen
     contents = await file.read()
     image = Image.open(io.BytesIO(contents)).convert("RGB").resize((640, 640))
-    
+
     img = np.array(image).astype(np.float32) / 255.0
     img = img.transpose(2, 0, 1)
     img = np.expand_dims(img, axis=0)
@@ -40,16 +42,20 @@ async def detectar(file: UploadFile = File(...)):
 
     # ▶️ Ejecutar inferencia
     outputs = session.run(None, {"images": img})
-    predictions = outputs[0]  # (1, N, 6)
+    predictions = outputs[0]  # (num_detections, 6)
 
     detecciones = []
-    for pred in predictions[0]:  # quitar la dimensión [1]
+    for pred in predictions:
+        if len(pred) < 6:
+            continue  # predicción incompleta
         conf = float(pred[4])
         cls_idx = int(pred[5])
-        if conf > 0.4:
-            detecciones.append({
-                "clase": CLASSES[cls_idx] if cls_idx < len(CLASSES) else "desconocido",
-                "confianza": round(conf, 2)
-            })
+        if conf < 0.4:
+            continue  # ignorar detecciones débiles
+        clase = CLASSES[cls_idx] if 0 <= cls_idx < len(CLASSES) else "desconocido"
+        detecciones.append({
+            "clase": clase,
+            "confianza": round(conf * 100, 2)  # como porcentaje
+        })
 
     return {"detecciones": detecciones}

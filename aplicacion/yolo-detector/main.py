@@ -33,23 +33,23 @@ async def detectar(file: UploadFile = File(...)):
     contents = await file.read()
     image = Image.open(io.BytesIO(contents)).convert("RGB").resize((640, 640))
     
-    img = np.array(image).astype(np.float32) / 255.0  # Normaliza
-    img = img.transpose(2, 0, 1)  # HWC → CHW
-    img = np.expand_dims(img, axis=0)  # Añadir batch
+    img = np.array(image).astype(np.float32) / 255.0
+    img = img.transpose(2, 0, 1)
+    img = np.expand_dims(img, axis=0)
     img = np.ascontiguousarray(img)
 
     # ▶️ Ejecutar inferencia
-    output = session.run(None, {"images": img})[0]
+    outputs = session.run(None, {"images": img})
+    predictions = outputs[0]  # (1, N, 6)
 
-    # 📤 Procesar resultados (según tu formato de salida)
     detecciones = []
-    for pred in output:
-        conf = pred[4]
+    for pred in predictions[0]:  # quitar la dimensión [1]
+        conf = float(pred[4])
         cls_idx = int(pred[5])
-        if conf > 0.4:  # Umbral de confianza
+        if conf > 0.4:
             detecciones.append({
-                "clase": CLASSES[cls_idx],
-                "confianza": round(float(conf), 2)
+                "clase": CLASSES[cls_idx] if cls_idx < len(CLASSES) else "desconocido",
+                "confianza": round(conf, 2)
             })
 
     return {"detecciones": detecciones}

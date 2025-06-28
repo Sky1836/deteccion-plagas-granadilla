@@ -17,7 +17,7 @@ app.add_middleware(
 )
 
 # 📥 Descargar modelo ONNX con NMS desde S3
-url = "https://imagenes-granadilla-cielo.s3.us-east-2.amazonaws.com/best-nms.onnx"
+url = "https://imagenes-granadilla-cielo.s3.us-east-2.amazonaws.com/best.onnx"
 response = requests.get(url)
 model_bytes = io.BytesIO(response.content)
 session = ort.InferenceSession(model_bytes.getvalue(), providers=["CPUExecutionProvider"])

@@ -4,3 +4,4 @@ pillow
 python-multipart
 numpy
 onnxruntime
+requests

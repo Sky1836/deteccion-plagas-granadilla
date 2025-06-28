@@ -41,10 +41,13 @@ async def detectar(file: UploadFile = File(...)):
     img = np.ascontiguousarray(img)
 
     outputs = session.run(None, {"images": img})
-    predictions = outputs[0]
+    predictions_raw = outputs[0]
     
     print("🔎 PREDICCIONES CRUDAS:")
-    print(predictions)
+    print(predictions_raw)
+
+    # ⚠️ Desempaquetar correctamente
+    predictions = predictions_raw[0]
 
     def to_scalar(x):
         if isinstance(x, (list, np.ndarray)):
@@ -66,5 +69,8 @@ async def detectar(file: UploadFile = File(...)):
             "clase": clase,
             "confianza": round(conf * 100, 2)
         })
+
+    print("✅ DETECCIONES FINALES:")
+    print(detecciones)
 
     return {"detecciones": detecciones}

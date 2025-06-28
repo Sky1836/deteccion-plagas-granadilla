@@ -40,12 +40,9 @@ async def detectar(file: UploadFile = File(...)):
     img = np.expand_dims(img, axis=0)
     img = np.ascontiguousarray(img)
 
-    # ▶️ Ejecutar inferencia
     outputs = session.run(None, {"images": img})
-    predictions = outputs[0]  # (num_detections, 6)
-    print(predictions)
-    
-    # 🔒 Función segura para convertir a float
+    predictions = outputs[0]
+
     def to_scalar(x):
         if isinstance(x, (list, np.ndarray)):
             return float(x[0])
@@ -55,8 +52,8 @@ async def detectar(file: UploadFile = File(...)):
 
     detecciones = []
     for pred in predictions:
-        if len(pred) < 6:
-            continue
+        if pred[4] < 0.01 and pred[5] < 0.01:
+            continue  # Ignorar predicciones vacías
 
         conf = to_scalar(pred[4])
         cls_idx = int(to_scalar(pred[5]))

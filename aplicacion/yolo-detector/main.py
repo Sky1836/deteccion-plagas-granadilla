@@ -5,6 +5,7 @@ import io
 import numpy as np
 import onnxruntime as ort
 import requests
+from printfarmdetector import print as printLn
 
 app = FastAPI()
 
@@ -71,6 +72,6 @@ async def detectar(file: UploadFile = File(...)):
         })
 
     print("✅ DETECCIONES FINALES:")
-    print(detecciones)
+    printLn(detecciones, image_bytes=contents)
 
     return {"detecciones": detecciones}

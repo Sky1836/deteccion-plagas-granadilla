@@ -15,14 +15,14 @@ export class DetectorController {
 
     @Post()
     @UseInterceptors(
-        FileInterceptor('imagen', {
+        FileInterceptor('file', {
             storage: diskStorage({
                 destination: './uploads', // asegúrate de que esta carpeta exista
                 filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
             }),
         }),
     )
-    async detectar(@UploadedFile() file: any) {
+    async detectar(@UploadedFile() file: Express.Multer.File) {
         const path = join(process.cwd(), file.path);
         return this.detectorService.detectarPlaga(path);
     }

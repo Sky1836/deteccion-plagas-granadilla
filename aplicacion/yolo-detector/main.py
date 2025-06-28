@@ -42,6 +42,9 @@ async def detectar(file: UploadFile = File(...)):
 
     outputs = session.run(None, {"images": img})
     predictions = outputs[0]
+    
+    print("🔎 PREDICCIONES CRUDAS:")
+    print(predictions)
 
     def to_scalar(x):
         if isinstance(x, (list, np.ndarray)):

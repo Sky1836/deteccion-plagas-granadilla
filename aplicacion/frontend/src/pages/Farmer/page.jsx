@@ -89,7 +89,7 @@ export default function FarmerPage() {
 
       // Armar formData
       const formData = new FormData();
-      formData.append('imagen', blob, 'captura.jpg');
+      formData.append('file', blob, 'captura.jpg');
 
       // Enviar al backend NestJS (localhost o dominio real)
       const res = await fetch('https://api.granashield.com/detector', {
@@ -133,7 +133,7 @@ export default function FarmerPage() {
       <MenuDesplegable
         userName={user?.nombre}
         onNavigate={(seccion) => {
-          if (seccion === 'inicio') return;
+          if (seccion === 'inicio') navigate('/agricultor');
           if (seccion === 'historial') navigate('/historial');
           if (seccion === 'trips') alert("Trips aún no implementado");
           if (seccion === 'hlb') alert("HLB aún no implementado");

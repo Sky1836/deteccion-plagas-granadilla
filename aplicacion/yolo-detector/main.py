@@ -43,6 +43,7 @@ async def detectar(file: UploadFile = File(...)):
     # ▶️ Ejecutar inferencia
     outputs = session.run(None, {"images": img})
     predictions = outputs[0]  # (num_detections, 6)
+    print(predictions)
     
     # 🔒 Función segura para convertir a float
     def to_scalar(x):
@@ -60,7 +61,7 @@ async def detectar(file: UploadFile = File(...)):
         conf = to_scalar(pred[4])
         cls_idx = int(to_scalar(pred[5]))
 
-        if conf < 0.4:
+        if conf < 0.2:
             continue
 
         clase = CLASSES[cls_idx] if 0 <= cls_idx < len(CLASSES) else "desconocido"

@@ -20,7 +20,8 @@ app.add_middleware(
 url = "https://imagenes-granadilla-cielo.s3.us-east-2.amazonaws.com/best-nms.onnx"
 response = requests.get(url)
 model_bytes = io.BytesIO(response.content)
-session = ort.InferenceSession(model_bytes.read(), providers=["CPUExecutionProvider"])
+session = ort.InferenceSession(model_bytes.getvalue(), providers=["CPUExecutionProvider"])
+
 
 # ✅ Clases reales del modelo
 CLASSES = [

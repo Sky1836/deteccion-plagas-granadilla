@@ -22,7 +22,6 @@ response = requests.get(url)
 model_bytes = io.BytesIO(response.content)
 session = ort.InferenceSession(model_bytes.getvalue(), providers=["CPUExecutionProvider"])
 
-
 # ✅ Clases reales del modelo
 CLASSES = [
     "Granadilla Enferma",
@@ -49,14 +48,18 @@ async def detectar(file: UploadFile = File(...)):
     for pred in predictions:
         if len(pred) < 6:
             continue  # predicción incompleta
-        conf = float(pred[4])
-        cls_idx = int(pred[5])
+
+        # ✅ Maneja arrays tipo np.array([0.85])
+        conf = float(pred[4].item() if hasattr(pred[4], "item") else pred[4])
+        cls_idx = int(pred[5].item() if hasattr(pred[5], "item") else pred[5])
+
         if conf < 0.4:
-            continue  # ignorar detecciones débiles
+            continue  # ignorar predicciones débiles
+
         clase = CLASSES[cls_idx] if 0 <= cls_idx < len(CLASSES) else "desconocido"
         detecciones.append({
             "clase": clase,
-            "confianza": round(conf * 100, 2)  # como porcentaje
+            "confianza": round(conf * 100, 2)
         })
 
     return {"detecciones": detecciones}

@@ -36,26 +36,57 @@ export default function Diagnostico() {
       return;
     }
 
-    fetch('https://api.granashield.com/diagnosticos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId,
-        plagaId,
-        resultado: parsed.plaga,
-        recomendacion: parsed.recomendacion,
-        imagenUrl: parsed.imagen,
-        fecha: parsed.fecha,
-      }),
-    })
-      .then(res => {
+    const subirImagenAS3 = async () => {
+      try {
+        const resBlob = await fetch(parsed.imagen);
+        const blob = await resBlob.blob();
+        const formData = new FormData();
+        formData.append('file', blob, `captura.jpg`);
+
+        const res = await fetch('https://api.granashield.com/upload/image', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!res.ok) throw new Error('Fallo al subir imagen a S3');
+
+        const { url } = await res.json();
+        return url;
+      } catch (err) {
+        console.error('❌ Error subiendo imagen a S3:', err.message);
+        return null;
+      }
+    };
+
+    const guardarDiagnostico = async () => {
+      const imagenUrl = await subirImagenAS3();
+      if (!imagenUrl) return;
+
+      try {
+        const res = await fetch('https://api.granashield.com/diagnosticos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId,
+            plagaId,
+            resultado: parsed.plaga,
+            recomendacion: parsed.recomendacion,
+            imagenUrl,
+            fecha: parsed.fecha,
+          }),
+        });
+
         if (!res.ok) throw new Error('Error al guardar diagnóstico');
+
         console.log('✅ Diagnóstico guardado');
         localStorage.setItem('mockDiagnostico', JSON.stringify({ ...parsed, guardado: true }));
-      })
-      .catch(err => console.error('❌ Error al guardar:', err.message));
-  }, [navigate]);
+      } catch (err) {
+        console.error('❌ Error al guardar diagnóstico:', err.message);
+      }
+    };
 
+    guardarDiagnostico();
+  }, [navigate]);
 
   if (!diagnostico) return null;
 

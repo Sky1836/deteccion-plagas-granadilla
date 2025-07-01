@@ -10,13 +10,52 @@ export default function Diagnostico() {
 
   useEffect(() => {
     const data = localStorage.getItem('mockDiagnostico');
-    if (data) {
-      setDiagnostico(JSON.parse(data));
-    } else {
+    if (!data) {
       alert('No hay diagnóstico disponible');
       navigate('/');
+      return;
     }
+
+    const parsed = JSON.parse(data);
+    setDiagnostico(parsed);
+
+    if (parsed.guardado) return;
+
+    const userId = parseInt(localStorage.getItem('userId'), 10);
+    if (!userId) {
+      console.warn('Usuario no autenticado');
+      return;
+    }
+
+    let plagaId = null;
+    if (parsed.plaga?.toLowerCase().includes('trip')) plagaId = 1;
+    else if (parsed.plaga?.toLowerCase().includes('araña')) plagaId = 2;
+
+    if (!plagaId) {
+      console.warn('Plaga desconocida, no se guardará en la BD');
+      return;
+    }
+
+    fetch('https://api.granashield.com/diagnosticos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId,
+        plagaId,
+        resultado: parsed.plaga,
+        recomendacion: parsed.recomendacion,
+        imagenUrl: parsed.imagen,
+        fecha: parsed.fecha,
+      }),
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al guardar diagnóstico');
+        console.log('✅ Diagnóstico guardado');
+        localStorage.setItem('mockDiagnostico', JSON.stringify({ ...parsed, guardado: true }));
+      })
+      .catch(err => console.error('❌ Error al guardar:', err.message));
   }, [navigate]);
+
 
   if (!diagnostico) return null;
 

@@ -25,6 +25,52 @@ export default function Diagnostico() {
     month: 'long'
   });
 
+  const plaga = diagnostico.plaga?.toLowerCase();
+
+  const renderInfoPlaga = () => {
+    if (plaga === 'trips') {
+      return (
+        <>
+          <h3>Trips (Frankliniella occidentalis)</h3>
+          <p className="tipo-plaga">Tipo: Insecto chupador</p>
+          <p><strong>Síntomas:</strong> Quemaduras en hojas, manchas plateadas, deformación de flores y frutos.</p>
+          <p><strong>Daños:</strong> Reducción de área fotosintética, transmisión de virus, pérdida de calidad comercial.</p>
+          <p><strong>Control preventivo:</strong> Monitoreo con trampas azules, eliminación de maleza, evitar el exceso de nitrógeno.</p>
+          <p><strong>Control químico:</strong> Aplicar insecticidas del grupo 3A (piretroides) o 4A (neonicotinoides), con rotación de ingredientes activos.</p>
+          <div className="control-organico">
+            <h4>🌿 Control orgánico recomendado</h4>
+            <p>
+              Usa trampas adhesivas azules, extracto de ajo, jabón potásico, y depredadores naturales como <em>Orius insidiosus</em> y crisopas.
+            </p>
+          </div>
+        </>
+      );
+    }
+
+    if (plaga === 'araña') {
+      return (
+        <>
+          <h3>Araña Roja (Tetranychus urticae)</h3>
+          <p className="tipo-plaga">Tipo: Ácaro</p>
+          <p><strong>Síntomas:</strong> Manchas amarillas en hojas, telarañas finas, debilitamiento general de la planta.</p>
+          <p><strong>Daños:</strong> Caída de hojas, reducción de producción, debilitamiento total del cultivo en casos graves.</p>
+          <p><strong>Control preventivo:</strong> Asegurar humedad adecuada, evitar estrés hídrico, rotación de cultivos.</p>
+          <p><strong>Control químico:</strong> Aplicar acaricidas del grupo 1B (organofosforados) o aceites minerales, respetando los tiempos de carencia.</p>
+          <div className="control-organico">
+            <h4>🌿 Control orgánico recomendado</h4>
+            <p>
+              Usa <strong>azufre mojable</strong>, extracto de ajo, o depredadores como <em>Phytoseiulus persimilis</em> y <em>Amblyseius swirskii</em>.
+            </p>
+          </div>
+        </>
+      );
+    }
+
+    return (
+      <p>No se encontró información específica para la plaga detectada.</p>
+    );
+  };
+
   return (
     <div className="diagnostico-container">
       <div className="diagnostico-header">
@@ -37,71 +83,15 @@ export default function Diagnostico() {
       <div className="diagnostico-card">
         <img src={diagnostico.imagen} alt="captura" className="imagen-plaga" />
         <div className="info-plaga">
-          <h3>
-            {diagnostico.plaga?.toLowerCase().includes('pulgon') ? 'Trips' : diagnostico.plaga}
-          </h3>
-
-          <p className="tipo-plaga">Insecto</p>
+          {renderInfoPlaga()}
         </div>
       </div>
 
       <div className="recomendaciones-section">
-        <h3>Recomendaciones</h3>
+        <h3>Resumen del modelo</h3>
         <p>{diagnostico.recomendacion}</p>
-
         <p><strong>Confianza del modelo:</strong> {Math.round(diagnostico.confianza * 100)}%</p>
-
-        {['trip', 'pulgon'].some(plaga =>
-          diagnostico.plaga?.toLowerCase().includes(plaga)
-        ) && (
-            <div className="control-organico">
-              <h4>🌿 Control orgánico para trips</h4>
-              <p>
-                El ácaro depredador <strong>Euseius tularensis</strong>, las crisopas y las chinches pirata
-                (<em>Orius insidiosus</em>) son enemigos naturales. Puedes usar trampas adhesivas azules o extracto de ajo.
-              </p>
-            </div>
-          )}
-
-
-        {diagnostico.plaga?.toLowerCase().includes('mosca') && (
-          <div className="control-organico">
-            <h4>🌿 Control para mosca blanca</h4>
-            <p>
-              Usa <strong>Beauveria bassiana</strong> (hongo entomopatógeno), trampas amarillas y controla malezas cercanas.
-            </p>
-          </div>
-        )}
-
-        {diagnostico.plaga?.toLowerCase().includes('arana') && (
-          <div className="control-organico">
-            <h4>🌿 Control para ácaros (araña roja)</h4>
-            <p>
-              Se sugiere aplicar <strong>azufre mojable</strong> o extracto de ajo. También sirven depredadores como
-              <em> Phytoseiulus persimilis</em>.
-            </p>
-          </div>
-        )}
-
-        {diagnostico.plaga?.toLowerCase().includes('picudo') && (
-          <div className="control-organico">
-            <h4>🌿 Control para picudo rojo</h4>
-            <p>
-              Se recomienda eliminar partes infectadas, usar trampas feromonales y aplicar hongos como <em>Beauveria bassiana</em>.
-            </p>
-          </div>
-        )}
-
-        {diagnostico.plaga?.toLowerCase().includes('mft') && (
-          <div className="control-organico">
-            <h4>🌿 Control sugerido para MFT</h4>
-            <p>
-              Usa trampas específicas según el tipo, controla maleza circundante y realiza monitoreo frecuente. Aún se investiga su impacto total.
-            </p>
-          </div>
-        )}
       </div>
-
     </div>
   );
 }

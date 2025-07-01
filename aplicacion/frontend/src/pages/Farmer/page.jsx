@@ -92,7 +92,7 @@ export default function FarmerPage() {
         return;
       }
 
-      const plagaDetectada = data.detecciones[0]?.clase || 'Desconocida';
+      const plagaDetectada = data.detecciones[0]?.plaga || 'Desconocida';
 
       const diagnostico = {
         resultado: `Plaga detectada: ${plagaDetectada}`,

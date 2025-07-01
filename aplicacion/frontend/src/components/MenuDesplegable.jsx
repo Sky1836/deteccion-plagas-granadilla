@@ -34,10 +34,10 @@ export default function MenuDesplegable({ userName = 'Usuario', onNavigate = () 
                                 Historial de Consultas <FontAwesomeIcon icon={faChevronRight} />
                             </li>
                             <li onClick={() => handleNavigate('trips')} className="menu-item" id="menu-trips">
-                                Trips de Cítricos <FontAwesomeIcon icon={faChevronRight} />
+                                Trips <FontAwesomeIcon icon={faChevronRight} />
                             </li>
-                            <li onClick={() => handleNavigate('hlb')} className="menu-item" id="menu-hlb">
-                                HLB de los Cítricos <FontAwesomeIcon icon={faChevronRight} />
+                            <li onClick={() => handleNavigate('arania')} className="menu-item" id="menu-hlb">
+                                Araña Roja <FontAwesomeIcon icon={faChevronRight} />
                             </li>
                             <li onClick={() => window.location.href="/login"} className="menu-item logout" id="menu-hlb">
                                 Cerrar sesión <FontAwesomeIcon icon={faRightFromBracket} />

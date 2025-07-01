@@ -5,7 +5,6 @@ import MenuDesplegable from '../../components/MenuDesplegable';
 
 export default function FarmerPage() {
   const [user, setUser] = useState(null);
-  const [plagas, setPlagas] = useState([]);
   const [showCamera, setShowCamera] = useState(false);
   const [preview, setPreview] = useState(null);
 
@@ -22,7 +21,6 @@ export default function FarmerPage() {
     }
 
     setUser(JSON.parse(storedUser));
-    cargarPlagas();
   }, []);
 
   useEffect(() => {
@@ -52,16 +50,6 @@ export default function FarmerPage() {
     cerrarCamara();
     setPreview(null);
     setShowCamera(true);
-  };
-
-  const cargarPlagas = async () => {
-    try {
-      const res = await fetch('https://api.granashield.com/plagas');
-      const data = await res.json();
-      setPlagas(data);
-    } catch (err) {
-      console.error("Error al cargar plagas:", err);
-    }
   };
 
   const capturarFoto = () => {
@@ -127,7 +115,6 @@ export default function FarmerPage() {
     }
   };
 
-
   return (
     <>
       <MenuDesplegable
@@ -135,8 +122,8 @@ export default function FarmerPage() {
         onNavigate={(seccion) => {
           if (seccion === 'inicio') navigate('/agricultor');
           if (seccion === 'historial') navigate('/historial');
-          if (seccion === 'trips') alert("Trips aún no implementado");
-          if (seccion === 'hlb') alert("HLB aún no implementado");
+          if (seccion === 'trips') navigate('/plaga/trips');
+          if (seccion === 'arania') navigate('/plaga/arania');
         }}
       />
       <div className='farmer-page'>

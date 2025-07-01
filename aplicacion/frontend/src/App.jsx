@@ -8,6 +8,7 @@ import Historial from './pages/Historial/page';
 import RegisterPage from './pages/Register/page';
 import ResetPassword from './pages/ResetPassword/page';
 import HandleAction from './pages/HandleAction/page';
+import PlagaPage from './pages/PlagaPage/page';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/historial" element={<Historial />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/plaga/:tipo" element={<PlagaPage />} />
       </Routes>
     </Router>
   );

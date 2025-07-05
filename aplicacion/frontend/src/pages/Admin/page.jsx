@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from 'react-i18next';
 import { faChevronRight, faChevronDown, faRightFromBracket, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.css';
 
@@ -14,6 +15,7 @@ export default function AdminPanel() {
     const [plagasSelect, setPlagasSelect] = useState([]);
     const [modal, setModal] = useState('');
     console.log(vista);
+    const { t } = useTranslation();
 
     const toggleSection = (section) => {
         const newExpanded = { ...expanded, [section]: !expanded[section] };
@@ -91,22 +93,25 @@ export default function AdminPanel() {
 
     return (
         <div className="admin-container">
-            <h1 className="admin-title">Panel de Administración</h1>
+            <h1 className="admin-title">{t('admin.title')}</h1>
 
             <div className={`section-header ${expanded.plagas ? 'expanded' : ''}`} onClick={() => toggleSection('plagas')}>
-                <FontAwesomeIcon icon={expanded.plagas ? faChevronDown : faChevronRight} /> Plagas
+                <FontAwesomeIcon icon={expanded.plagas ? faChevronDown : faChevronRight} /> {t('admin.sections.plagues')}
             </div>
             <div className={`section-body-wrapper ${expanded.plagas ? 'expand' : 'collapse'}`}>
                 {expanded.plagas && (
                     <div className="section-body">
                         <button onClick={() => setModal('plaga')} className="add-button">
-                            <FontAwesomeIcon icon={faPlus} />
-                            Añadir nueva plaga
+                            <FontAwesomeIcon icon={faPlus} /> {t('admin.buttons.addPlague')}
                         </button>
                         <div className="table-container">
                             <table className="admin-table">
                                 <thead>
-                                    <tr><th>Nombre</th><th>Tipo</th><th>Descripción</th></tr>
+                                    <tr>
+                                        <th>{t('admin.table.name')}</th>
+                                        <th>{t('admin.table.type')}</th>
+                                        <th>{t('admin.table.description')}</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     {plagas.map(p => (
@@ -120,23 +125,32 @@ export default function AdminPanel() {
             </div>
 
             <div className={`section-header ${expanded.insecticidas ? 'expanded' : ''}`} onClick={() => toggleSection('insecticidas')}>
-                <FontAwesomeIcon icon={expanded.insecticidas ? faChevronDown : faChevronRight} /> Insecticidas
+                <FontAwesomeIcon icon={expanded.insecticidas ? faChevronDown : faChevronRight} /> {t('admin.sections.insecticides')}
             </div>
             <div className={`section-body-wrapper ${expanded.insecticidas ? 'expand' : 'collapse'}`}>
                 {expanded.insecticidas && (
                     <div className="section-body">
                         <button onClick={() => setModal('insecticida')} className="add-button">
-                            <FontAwesomeIcon icon={faPlus} />
-                            Añadir insecticida
+                            <FontAwesomeIcon icon={faPlus} /> {t('admin.buttons.addInsecticide')}
                         </button>
                         <div className='table-container'>
                             <table className="admin-table">
                                 <thead>
-                                    <tr><th>Nombre</th><th>Compuesto</th><th>Aplicación</th><th>Plaga</th></tr>
+                                    <tr>
+                                        <th>{t('admin.table.name')}</th>
+                                        <th>{t('admin.table.compound')}</th>
+                                        <th>{t('admin.table.application')}</th>
+                                        <th>{t('admin.table.plague')}</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     {insecticidas.map(i => (
-                                        <tr key={i.id}><td>{i.nombre}</td><td>{i.compuesto}</td><td>{i.aplicacion}</td><td>{i.plaga?.nombre || '-'}</td></tr>
+                                        <tr key={i.id}>
+                                            <td>{i.nombre}</td>
+                                            <td>{i.compuesto}</td>
+                                            <td>{i.aplicacion}</td>
+                                            <td>{i.plaga?.nombre || '-'}</td>
+                                        </tr>
                                     ))}
                                 </tbody>
                             </table>
@@ -146,7 +160,7 @@ export default function AdminPanel() {
             </div>
 
             <div className={`section-header ${expanded.diagnosticos ? 'expanded' : ''}`} onClick={() => toggleSection('diagnosticos')}>
-                <FontAwesomeIcon icon={expanded.diagnosticos ? faChevronDown : faChevronRight} /> Diagnósticos
+                <FontAwesomeIcon icon={expanded.diagnosticos ? faChevronDown : faChevronRight} /> {t('admin.sections.diagnostics')}
             </div>
             <div className={`section-body-wrapper ${expanded.diagnosticos ? 'expand' : 'collapse'}`}>
                 {expanded.diagnosticos && (
@@ -154,7 +168,13 @@ export default function AdminPanel() {
                         <div className='table-container'>
                             <table className="admin-table">
                                 <thead>
-                                    <tr><th>Fecha</th><th>Agricultor</th><th>Plaga</th><th>Resultado</th><th>Recomendación</th></tr>
+                                    <tr>
+                                        <th>{t('admin.table.date')}</th>
+                                        <th>{t('admin.table.farmer')}</th>
+                                        <th>{t('admin.table.plague')}</th>
+                                        <th>{t('admin.table.result')}</th>
+                                        <th>{t('admin.table.recommendation')}</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     {diagnosticos.map(d => (
@@ -176,13 +196,13 @@ export default function AdminPanel() {
             {modal === 'plaga' && (
                 <div className="modal">
                     <form onSubmit={submitPlaga} className="modal-form">
-                        <h2>Agregar Plaga</h2>
-                        <label>Nombre: <input type="text" name="nombre" required /></label>
-                        <label>Descripción: <input type="text" name="descripcion" required /></label>
-                        <label>Tipo: <input type="text" name="tipo" required /></label>
+                        <h2>{t('admin.modals.addPlague')}</h2>
+                        <label>{t('admin.table.name')}: <input type="text" name="nombre" required /></label>
+                        <label>{t('admin.table.description')}: <input type="text" name="descripcion" required /></label>
+                        <label>{t('admin.table.type')}: <input type="text" name="tipo" required /></label>
                         <div className="modal-actions">
-                            <button type="submit">Guardar</button>
-                            <button type="button" onClick={() => setModal('')}>Cancelar</button>
+                            <button type="submit">{t('admin.buttons.save')}</button>
+                            <button type="button" onClick={() => setModal('')}>{t('admin.buttons.cancel')}</button>
                         </div>
                     </form>
                 </div>
@@ -191,25 +211,25 @@ export default function AdminPanel() {
             {modal === 'insecticida' && (
                 <div className="modal">
                     <form onSubmit={submitInsecticida} className="modal-form">
-                        <h2>Agregar Insecticida</h2>
-                        <label>Nombre: <input type="text" name="nombre" required /></label>
-                        <label>Compuesto: <input type="text" name="compuesto" required /></label>
-                        <label>Aplicación: <input type="text" name="aplicacion" required /></label>
-                        <label>Plaga:
+                        <h2>{t('admin.modals.addInsecticide')}</h2>
+                        <label>{t('admin.table.name')}: <input type="text" name="nombre" required /></label>
+                        <label>{t('admin.table.compound')}: <input type="text" name="compuesto" required /></label>
+                        <label>{t('admin.table.application')}: <input type="text" name="aplicacion" required /></label>
+                        <label>{t('admin.table.plague')}:
                             <select name="plagaId">
                                 {plagasSelect.map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
                             </select>
                         </label>
                         <div className="modal-actions">
-                            <button type="submit">Guardar</button>
-                            <button type="button" onClick={() => setModal('')}>Cancelar</button>
+                            <button type="submit">{t('admin.buttons.save')}</button>
+                            <button type="button" onClick={() => setModal('')}>{t('admin.buttons.cancel')}</button>
                         </div>
                     </form>
                 </div>
             )}
 
             <div className="section-header logout" onClick={() => window.location.href = "/login"}>
-                <FontAwesomeIcon icon={faRightFromBracket} /> Cerrar sesión
+                <FontAwesomeIcon icon={faRightFromBracket} /> {t('admin.buttons.logout')}
             </div>
         </div>
     );

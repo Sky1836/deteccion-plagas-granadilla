@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faChevronRight, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import './menu.css';
 
 export default function MenuDesplegable({ userName = 'Usuario', onNavigate = () => { } }) {
     const [visible, setVisible] = useState(false);
+    const { t } = useTranslation();
 
     const toggleMenu = () => setVisible(!visible);
 
@@ -17,7 +19,7 @@ export default function MenuDesplegable({ userName = 'Usuario', onNavigate = () 
         <>
             <div className="menu-header" id="menu-header">
                 <button className="menu-toggle-btn" onClick={toggleMenu}>
-                    <FontAwesomeIcon icon={faBars} /> <span className="menu-label">Menú</span>
+                    <FontAwesomeIcon icon={faBars} /> <span className="menu-label">{t('menu.title')}</span>
                 </button>
             </div>
 
@@ -25,22 +27,24 @@ export default function MenuDesplegable({ userName = 'Usuario', onNavigate = () 
                 <div className="menu-overlay" id="menu-overlay">
                     <div className="menu-sidebar" id="menu-sidebar">
                         <div className="menu-top">
-                            <h2>Bienvenido, <b>{userName}</b></h2>
+                            <h2>{t('menu.welcome', { name: userName })}</h2>
                             <FontAwesomeIcon icon={faTimes} className="close-icon" onClick={toggleMenu} />
                         </div>
                         <ul className="menu-list" id="menu-list">
-                            <li onClick={() => handleNavigate('inicio')} className="menu-item" id="menu-inicio">Inicio</li>
+                            <li onClick={() => handleNavigate('inicio')} className="menu-item" id="menu-inicio">
+                                {t('menu.home')}
+                            </li>
                             <li onClick={() => handleNavigate('historial')} className="menu-item" id="menu-historial">
-                                Historial de Consultas <FontAwesomeIcon icon={faChevronRight} />
+                                {t('menu.history')} <FontAwesomeIcon icon={faChevronRight} />
                             </li>
                             <li onClick={() => handleNavigate('trips')} className="menu-item" id="menu-trips">
-                                Trips <FontAwesomeIcon icon={faChevronRight} />
+                                {t('menu.trips')} <FontAwesomeIcon icon={faChevronRight} />
                             </li>
                             <li onClick={() => handleNavigate('arania')} className="menu-item" id="menu-hlb">
-                                Araña Roja <FontAwesomeIcon icon={faChevronRight} />
+                                {t('menu.redSpider')} <FontAwesomeIcon icon={faChevronRight} />
                             </li>
-                            <li onClick={() => window.location.href="/login"} className="menu-item logout" id="menu-hlb">
-                                Cerrar sesión <FontAwesomeIcon icon={faRightFromBracket} />
+                            <li onClick={() => window.location.href = "/login"} className="menu-item logout" id="menu-hlb">
+                                {t('menu.logout')} <FontAwesomeIcon icon={faRightFromBracket} />
                             </li>
                         </ul>
                     </div>

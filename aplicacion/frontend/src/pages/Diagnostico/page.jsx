@@ -3,15 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function Diagnostico() {
   const [diagnostico, setDiagnostico] = useState(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const data = localStorage.getItem('mockDiagnostico');
     if (!data) {
-      alert('No hay diagnóstico disponible');
+      alert(t('diagnostico.noData'));
       navigate('/');
       return;
     }
@@ -86,7 +88,7 @@ export default function Diagnostico() {
     };
 
     guardarDiagnostico();
-  }, [navigate]);
+  }, [navigate, t]);
 
   if (!diagnostico) return null;
 
@@ -101,17 +103,15 @@ export default function Diagnostico() {
     if (plaga === 'trips') {
       return (
         <>
-          <h3>Trips (Frankliniella occidentalis)</h3>
-          <p className="tipo-plaga">Tipo: Insecto chupador</p>
-          <p><strong>Síntomas:</strong> Quemaduras en hojas, manchas plateadas, deformación de flores y frutos.</p>
-          <p><strong>Daños:</strong> Reducción de área fotosintética, transmisión de virus, pérdida de calidad comercial.</p>
-          <p><strong>Control preventivo:</strong> Monitoreo con trampas azules, eliminación de maleza, evitar el exceso de nitrógeno.</p>
-          <p><strong>Control químico:</strong> Aplicar insecticidas del grupo 3A (piretroides) o 4A (neonicotinoides), con rotación de ingredientes activos.</p>
+          <h3>{t('diagnostico.trips.title')}</h3>
+          <p className="tipo-plaga">{t('diagnostico.trips.type')}</p>
+          <p><strong>{t('diagnostico.trips.symptoms')}</strong></p>
+          <p><strong>{t('diagnostico.trips.damage')}</strong></p>
+          <p><strong>{t('diagnostico.trips.prevention')}</strong></p>
+          <p><strong>{t('diagnostico.trips.chemical')}</strong></p>
           <div className="control-organico">
-            <h4>🌿 Control orgánico recomendado</h4>
-            <p>
-              Usa trampas adhesivas azules, extracto de ajo, jabón potásico, y depredadores naturales como <em>Orius insidiosus</em> y crisopas.
-            </p>
+            <h4>{t('diagnostico.trips.organicTitle')}</h4>
+            <p>{t('diagnostico.trips.organic')}</p>
           </div>
         </>
       );
@@ -120,25 +120,21 @@ export default function Diagnostico() {
     if (plaga === 'araña') {
       return (
         <>
-          <h3>Araña Roja (Tetranychus urticae)</h3>
-          <p className="tipo-plaga">Tipo: Ácaro</p>
-          <p><strong>Síntomas:</strong> Manchas amarillas en hojas, telarañas finas, debilitamiento general de la planta.</p>
-          <p><strong>Daños:</strong> Caída de hojas, reducción de producción, debilitamiento total del cultivo en casos graves.</p>
-          <p><strong>Control preventivo:</strong> Asegurar humedad adecuada, evitar estrés hídrico, rotación de cultivos.</p>
-          <p><strong>Control químico:</strong> Aplicar acaricidas del grupo 1B (organofosforados) o aceites minerales, respetando los tiempos de carencia.</p>
+          <h3>{t('diagnostico.arania.title')}</h3>
+          <p className="tipo-plaga">{t('diagnostico.arania.type')}</p>
+          <p><strong>{t('diagnostico.arania.symptoms')}</strong></p>
+          <p><strong>{t('diagnostico.arania.damage')}</strong></p>
+          <p><strong>{t('diagnostico.arania.prevention')}</strong></p>
+          <p><strong>{t('diagnostico.arania.chemical')}</strong></p>
           <div className="control-organico">
-            <h4>🌿 Control orgánico recomendado</h4>
-            <p>
-              Usa <strong>azufre mojable</strong>, extracto de ajo, o depredadores como <em>Phytoseiulus persimilis</em> y <em>Amblyseius swirskii</em>.
-            </p>
+            <h4>{t('diagnostico.arania.organicTitle')}</h4>
+            <p>{t('diagnostico.arania.organic')}</p>
           </div>
         </>
       );
     }
 
-    return (
-      <p>No se encontró información específica para la plaga detectada.</p>
-    );
+    return <p>{t('diagnostico.noInfo')}</p>;
   };
 
   return (
@@ -147,7 +143,7 @@ export default function Diagnostico() {
         <button onClick={() => navigate('/agricultor')} className="back-button">
           <FontAwesomeIcon icon={faChevronLeft} /> {fechaFormateada}
         </button>
-        <h2 className="titulo-diagnostico">Resultado del diagnóstico</h2>
+        <h2 className="titulo-diagnostico">{t('diagnostico.title')}</h2>
       </div>
 
       <div className="diagnostico-card">
@@ -158,9 +154,9 @@ export default function Diagnostico() {
       </div>
 
       <div className="recomendaciones-section">
-        <h3>Resumen del modelo</h3>
+        <h3>{t('diagnostico.summary')}</h3>
         <p>{diagnostico.recomendacion}</p>
-        <p><strong>Confianza del modelo:</strong> {Math.round(diagnostico.confianza * 100)}%</p>
+        <p><strong>{t('diagnostico.confidence')}</strong> {Math.round(diagnostico.confianza * 100)}%</p>
       </div>
     </div>
   );

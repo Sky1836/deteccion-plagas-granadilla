@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import MenuDesplegable from '../../components/MenuDesplegable';
+import { useTranslation } from 'react-i18next';
 
 export default function FarmerPage() {
   const [user, setUser] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
   const [preview, setPreview] = useState(null);
+  const { t } = useTranslation();
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -15,13 +17,12 @@ export default function FarmerPage() {
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (!storedUser) {
-      alert('No hay usuario autenticado');
+      alert(t('farmer.noUser'));
       window.location.href = '/login';
       return;
     }
-
     setUser(JSON.parse(storedUser));
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (showCamera && !preview) {
@@ -32,11 +33,11 @@ export default function FarmerPage() {
           }
         })
         .catch(err => {
-          alert("No se pudo acceder a la cámara");
+          alert(t('farmer.noCamera'));
           console.error(err);
         });
     }
-  }, [showCamera, preview]);
+  }, [showCamera, preview, t]);
 
   const cerrarCamara = () => {
     const stream = videoRef.current?.srcObject;
@@ -67,19 +68,16 @@ export default function FarmerPage() {
 
   const aceptarDiagnostico = async () => {
     if (!preview) {
-      alert('No hay imagen capturada');
+      alert(t('farmer.noImage'));
       return;
     }
 
     try {
-      // Convertir base64 a blob
       const blob = await fetch(preview).then(res => res.blob());
 
-      // Armar formData
       const formData = new FormData();
       formData.append('file', blob, 'captura.jpg');
 
-      // Enviar al backend NestJS (localhost o dominio real)
       const res = await fetch('https://api.granashield.com/detector', {
         method: 'POST',
         body: formData,
@@ -88,7 +86,7 @@ export default function FarmerPage() {
       const data = await res.json();
 
       if (!data.detecciones || data.detecciones.length === 0) {
-        alert('No se detectaron plagas');
+        alert(t('farmer.noPests'));
         return;
       }
 
@@ -103,7 +101,6 @@ export default function FarmerPage() {
         fecha: new Date().toISOString(),
       };
 
-      // Guardar para mostrar en vista Diagnóstico
       localStorage.setItem('capturedImage', preview);
       localStorage.setItem('mockDiagnostico', JSON.stringify(diagnostico));
 
@@ -111,7 +108,7 @@ export default function FarmerPage() {
       navigate('/diagnostico');
     } catch (error) {
       console.error('Error al diagnosticar:', error);
-      alert('Ocurrió un error al enviar la imagen');
+      alert(t('farmer.errorSending'));
     }
   };
 
@@ -129,16 +126,17 @@ export default function FarmerPage() {
       <div className='farmer-page'>
 
         <div className="camara-contenedor">
-          <h3 className="titulo">Sane su cultivo</h3>
+          <h3 className="titulo">{t('farmer.title')}</h3>
           <div className="pasos">
-            <div className="paso"><div className="icono hoja" /><p>Tomar una<br />foto</p></div>
+            <div className="paso"><div className="icono hoja" /><p>{t('farmer.step1')}</p></div>
             <span className="flecha">➔</span>
-            <div className="paso"><div className="icono diagnostico" /><p>Ver<br />diagnóstico</p></div>
+            <div className="paso"><div className="icono diagnostico" /><p>{t('farmer.step2')}</p></div>
             <span className="flecha">➔</span>
-            <div className="paso"><div className="icono tratamiento" /><p>Obtener el<br />tratamiento</p></div>
+            <div className="paso"><div className="icono tratamiento" /><p>{t('farmer.step3')}</p></div>
           </div>
-          <button className="boton-foto" onClick={abrirCamara}>Tomar una foto</button>
+          <button className="boton-foto" onClick={abrirCamara}>{t('farmer.takePhoto')}</button>
         </div>
+
         {showCamera && (
           <div className="pantalla-camara">
             {!preview ? (
@@ -150,8 +148,8 @@ export default function FarmerPage() {
               <>
                 <img src={preview} alt="captura" className="preview-img" />
                 <div className="botones-acciones">
-                  <button className="boton-repetir" onClick={abrirCamara}>Repetir</button>
-                  <button className="boton-aceptar" onClick={aceptarDiagnostico}>Aceptar</button>
+                  <button className="boton-repetir" onClick={abrirCamara}>{t('farmer.repeat')}</button>
+                  <button className="boton-aceptar" onClick={aceptarDiagnostico}>{t('farmer.accept')}</button>
                 </div>
               </>
             )}

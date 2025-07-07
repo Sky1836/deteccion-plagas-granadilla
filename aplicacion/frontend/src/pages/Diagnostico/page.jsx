@@ -6,6 +6,8 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { useAchievement } from '../../hooks/useAchievement';
 import AchievementModal from '../../components/AchievementModal.jsx';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import DiagnosticoPDF from '../../components/DiagnosticoPDF';
 
 export default function Diagnostico() {
   const [diagnostico, setDiagnostico] = useState(null);
@@ -212,6 +214,16 @@ export default function Diagnostico() {
           <p><strong>{t('diagnostico.confidence')}</strong> {diagnostico.confianza}%</p>
         </div>
       </div>
+      <div style={{ textAlign: 'center', marginTop: 20 }}>
+        <PDFDownloadLink
+          document={<DiagnosticoPDF diagnostico={diagnostico} />}
+          fileName={`diagnostico-${diagnostico.fecha}.pdf`}
+          className="boton-descargar"
+        >
+          {({ loading }) => (loading ? 'Generando PDF...' : '📄 Descargar diagnóstico en PDF')}
+        </PDFDownloadLink>
+      </div>
+
     </>
   );
 }

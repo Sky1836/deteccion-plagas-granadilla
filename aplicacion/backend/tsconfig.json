@@ -2,7 +2,7 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "module": "commonjs",
+    "module": "CommonJS",
     "types": ["node"],
     "declaration": true,
     "removeComments": true,

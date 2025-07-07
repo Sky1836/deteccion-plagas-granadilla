@@ -213,16 +213,17 @@ export default function Diagnostico() {
           <p>{diagnostico.recomendacion}</p>
           <p><strong>{t('diagnostico.confidence')}</strong> {diagnostico.confianza}%</p>
         </div>
+        <div style={{ textAlign: 'center', marginTop: 20 }}>
+          <PDFDownloadLink
+            document={<DiagnosticoPDF diagnostico={diagnostico} />}
+            fileName={`diagnostico-${diagnostico.fecha}.pdf`}
+            className="boton-descargar"
+          >
+            {({ loading }) => (loading ? 'Generando PDF...' : '📄 Descargar diagnóstico en PDF')}
+          </PDFDownloadLink>
+        </div>
       </div>
-      <div style={{ textAlign: 'center', marginTop: 20 }}>
-        <PDFDownloadLink
-          document={<DiagnosticoPDF diagnostico={diagnostico} />}
-          fileName={`diagnostico-${diagnostico.fecha}.pdf`}
-          className="boton-descargar"
-        >
-          {({ loading }) => (loading ? 'Generando PDF...' : '📄 Descargar diagnóstico en PDF')}
-        </PDFDownloadLink>
-      </div>
+
 
     </>
   );

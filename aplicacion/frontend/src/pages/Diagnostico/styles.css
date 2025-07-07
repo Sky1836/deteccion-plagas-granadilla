@@ -73,7 +73,7 @@
     border-radius: 6px;
 }
 
-.control-organico p{
+.control-organico p {
     text-align: justify;
 }
 
@@ -88,4 +88,19 @@
     font-size: 16px;
     margin-top: 25px;
     cursor: pointer;
+}
+
+.boton-descargar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.boton-descargar:hover {
+    background-color: #218838;
 }

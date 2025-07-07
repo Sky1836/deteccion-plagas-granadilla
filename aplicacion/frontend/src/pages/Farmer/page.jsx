@@ -3,12 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import MenuDesplegable from '../../components/MenuDesplegable';
 import { useTranslation } from 'react-i18next';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 
 export default function FarmerPage() {
   const [user, setUser] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
   const [preview, setPreview] = useState(null);
   const { t } = useTranslation();
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    const visto = localStorage.getItem('onboardingFarmer');
+    if (!visto) setShowOnboarding(true);
+  }, []);
+
+  const cerrarOnboarding = () => {
+    localStorage.setItem('onboardingFarmer', 'true');
+    setShowOnboarding(false);
+  };
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -124,6 +140,36 @@ export default function FarmerPage() {
           if (seccion === 'logros') navigate('/logros');
         }}
       />
+
+      {showOnboarding && (
+        <div className="modal-onboarding">
+          <Swiper
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            className="swiper-onboarding"
+          >
+            <SwiperSlide className="swiper-slide-onboarding">
+              <h2>👋 ¡Bienvenido agricultor!</h2>
+              <p>Aquí puedes diagnosticar tus cultivos tomando una foto.</p>
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide-onboarding">
+              <h2>📷 Cámara</h2>
+              <p>Presiona "Tomar foto" para comenzar el diagnóstico de plagas.</p>
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide-onboarding">
+              <h2>📁 Historial</h2>
+              <p>Consulta tus diagnósticos pasados en la sección de historial.</p>
+            </SwiperSlide>
+            <SwiperSlide className="swiper-slide-onboarding"  >
+              <h2>🔍 Información</h2>
+              <p>Aprende sobre trips, araña roja y más desde el menú.</p>
+              <button onClick={cerrarOnboarding}>¡Entendido!</button>
+            </SwiperSlide>
+          </Swiper>
+        </div>
+      )}
+
+
       <div className='farmer-page'>
 
         <div className="camara-contenedor">

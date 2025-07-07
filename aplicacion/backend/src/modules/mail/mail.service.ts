@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
+import * as crypto from 'crypto';
+(global as any).crypto = crypto;
 
 dotenv.config(); // Cargar .env si no usas @nestjs/config
 

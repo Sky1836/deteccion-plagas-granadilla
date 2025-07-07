@@ -121,6 +121,7 @@ export default function FarmerPage() {
           if (seccion === 'historial') navigate('/historial');
           if (seccion === 'trips') navigate('/plaga/trips');
           if (seccion === 'arania') navigate('/plaga/arania');
+          if (seccion === 'logros') navigate('/logros');
         }}
       />
       <div className='farmer-page'>

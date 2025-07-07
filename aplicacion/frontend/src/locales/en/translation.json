@@ -6,7 +6,8 @@
         "history": "Consultation History",
         "trips": "Thrips",
         "redSpider": "Red Spider",
-        "logout": "Log out"
+        "logout": "Log out",
+        "logro": "Achievements"
     },
     "admin": {
         "title": "Admin Panel",
@@ -200,5 +201,9 @@
         "invalid": "Invalid or expired link",
         "short": "Password must be at least 6 characters long",
         "back": "Back to login"
+    },
+    "logros": {
+        "title": "My Achievements",
+        "noAchievements": "You haven't unlocked any achievements yet."
     }
 }

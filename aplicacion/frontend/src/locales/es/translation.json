@@ -6,7 +6,8 @@
         "history": "Historial de Consultas",
         "trips": "Trips",
         "redSpider": "Araña Roja",
-        "logout": "Cerrar sesión"
+        "logout": "Cerrar sesión",
+        "logro": "Logros"
     },
     "admin": {
         "title": "Panel de Administración",
@@ -200,5 +201,9 @@
         "invalid": "Enlace inválido o expirado",
         "short": "La contraseña debe tener al menos 6 caracteres",
         "back": "Volver al login"
+    },
+    "logros": {
+        "title": "Mis Logros",
+        "noAchievements": "Aún no has desbloqueado logros."
     }
 }

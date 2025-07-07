@@ -10,6 +10,7 @@ import ResetPassword from './pages/ResetPassword/page';
 import HandleAction from './pages/HandleAction/page';
 import PlagaPage from './pages/PlagaPage/page';
 import LanguageSelector from './components/LanguageSelector';
+import Logros from './pages/Logros';
 import './App.css';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/plaga/:tipo" element={<PlagaPage />} />
+        <Route path="/logros" element={<Logros />} />
       </Routes>
     </Router>
   );

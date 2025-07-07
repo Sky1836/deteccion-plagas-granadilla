@@ -43,6 +43,9 @@ export default function MenuDesplegable({ userName = 'Usuario', onNavigate = () 
                             <li onClick={() => handleNavigate('arania')} className="menu-item" id="menu-hlb">
                                 {t('menu.redSpider')} <FontAwesomeIcon icon={faChevronRight} />
                             </li>
+                            <li onClick={() => handleNavigate('logros')} className="menu-item" id="menu-hlb">
+                                {t('menu.logro')} <FontAwesomeIcon icon={faChevronRight} />
+                            </li>
                             <li onClick={() => window.location.href = "/login"} className="menu-item logout" id="menu-hlb">
                                 {t('menu.logout')} <FontAwesomeIcon icon={faRightFromBracket} />
                             </li>

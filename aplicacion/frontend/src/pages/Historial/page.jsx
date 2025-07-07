@@ -38,6 +38,7 @@ export default function Historial() {
                     if (seccion === 'historial') navigate('/historial');
                     if (seccion === 'trips') navigate('/plaga/trips');
                     if (seccion === 'arania') navigate('/plaga/arania');
+                    if (seccion === 'logros') navigate('/logros');
                 }}
             />
             <p className="mensaje-vacio">{t('historial.noData')}</p>;
@@ -53,6 +54,7 @@ export default function Historial() {
                     if (seccion === 'historial') navigate('/historial');
                     if (seccion === 'trips') navigate('/plaga/trips');
                     if (seccion === 'arania') navigate('/plaga/arania');
+                    if (seccion === 'logros') navigate('/logros');
                 }}
             />
             <div className="historial-container">

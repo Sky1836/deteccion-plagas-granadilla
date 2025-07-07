@@ -49,7 +49,7 @@ export default function PlagaPage() {
                     <ul>{info.prevencion.map((p, idx) => <li key={idx}>{p}</li>)}</ul>
                 </section>
 
-                <section>
+                <section className="imagenes-section">
                     <h2>{t('plaga.images')}</h2>
                     <div className="imagenes">
                         {info.imagenes.map((src, idx) => (

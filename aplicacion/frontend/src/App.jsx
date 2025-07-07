@@ -9,11 +9,13 @@ import RegisterPage from './pages/Register/page';
 import ResetPassword from './pages/ResetPassword/page';
 import HandleAction from './pages/HandleAction/page';
 import PlagaPage from './pages/PlagaPage/page';
+import LanguageSelector from './components/LanguageSelector';
 import './App.css';
 
 function App() {
   return (
     <Router>
+      <LanguageSelector />
       <Routes>
         <Route path="/" element={<HandleAction />} />
         <Route path="/login" element={<LoginPage />} />

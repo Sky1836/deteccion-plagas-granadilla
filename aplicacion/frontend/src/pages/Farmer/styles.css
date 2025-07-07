@@ -213,7 +213,7 @@ video {
 
 .botones-acciones {
     position: absolute;
-    bottom: 30px;
+    bottom: 50px;
     display: flex;
     gap: 20px;
     z-index: 10000;

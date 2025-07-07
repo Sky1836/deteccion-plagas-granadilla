@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function HandleAction() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -24,5 +26,5 @@ export default function HandleAction() {
         }
     }, [location, navigate]);
 
-    return <p>Redireccionando...</p>;
+    return <p>{t('auth.redirecting')}</p>;
 }

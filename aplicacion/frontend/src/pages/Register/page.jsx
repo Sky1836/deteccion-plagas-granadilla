@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faUser, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 if (!firebase.apps.length) {
     firebase.initializeApp({
@@ -19,6 +20,7 @@ const RegisterPage = () => {
     const [telefono, setTelefono] = useState('');
     const [password, setPassword] = useState('');
     const [msg, setMsg] = useState('');
+    const { t } = useTranslation();
 
     const auth = firebase.auth();
 
@@ -28,7 +30,7 @@ const RegisterPage = () => {
 
     const registrarUsuario = async () => {
         if (!nombre || !email || !password) {
-            return mostrarMensaje("Todos los campos son obligatorios");
+            return mostrarMensaje(t('register.required'));
         }
         try {
             const result = await auth.createUserWithEmailAndPassword(email, password);
@@ -36,27 +38,22 @@ const RegisterPage = () => {
             await fetch('https://api.granashield.com/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    token,
-                    nombre,
-                    email,
-                    telefono,
-                }),
+                body: JSON.stringify({ token, nombre, email, telefono }),
             });
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify({ nombre, email, rol: "AGRICULTOR" }));
             window.location.href = "/agricultor";
         } catch (err) {
-            mostrarMensaje("Error al registrar: " + err.message);
+            mostrarMensaje(`${t('register.error')}: ${err.message}`);
         }
     };
 
     return (
         <div className="login-box">
             <div className='left-container'>
-                <h1>REGISTRO</h1>
-                <h5>Accede a la tecnología para proteger tus cultivos</h5>
-                <p>Esta plataforma está diseñada para ayudarte a identificar y tratar plagas de forma sencilla y precisa.</p>
+                <h1>{t('register.title')}</h1>
+                <h5>{t('register.subtitle')}</h5>
+                <p>{t('register.description')}</p>
                 <div className='big-ball'></div>
                 <div className='medium-ball'></div>
                 <div className='small-ball'></div>
@@ -64,24 +61,24 @@ const RegisterPage = () => {
 
             <div className='right-container'>
                 <div className='login-container'>
-                    <h2>Crea tu cuenta</h2>
-                    <p>Ingresa tus datos para registrarte</p>
+                    <h2>{t('register.formTitle')}</h2>
+                    <p>{t('register.formSubtitle')}</p>
 
-                    <div className='email-input  register'>
+                    <div className='email-input register'>
                         <FontAwesomeIcon icon={faUser} />
                         <input
                             type="text"
-                            placeholder="Nombre completo"
+                            placeholder={t('register.fullName')}
                             value={nombre}
                             onChange={(e) => setNombre(e.target.value)}
                         />
                     </div>
 
-                    <div className='email-input  register'>
+                    <div className='email-input register'>
                         <FontAwesomeIcon icon={faEnvelope} />
                         <input
                             type="email"
-                            placeholder="Correo electrónico"
+                            placeholder={t('register.email')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -91,7 +88,7 @@ const RegisterPage = () => {
                         <FontAwesomeIcon icon={faPhone} />
                         <input
                             type="tel"
-                            placeholder="Teléfono (opcional)"
+                            placeholder={t('register.phone')}
                             value={telefono}
                             onChange={(e) => setTelefono(e.target.value)}
                         />
@@ -101,17 +98,17 @@ const RegisterPage = () => {
                         <FontAwesomeIcon icon={faLock} />
                         <input
                             type="password"
-                            placeholder="Contraseña"
+                            placeholder={t('register.password')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
 
-                    <button onClick={registrarUsuario}>Registrarse</button>
+                    <button onClick={registrarUsuario}>{t('register.submit')}</button>
 
                     <p style={{ color: msg?.color || 'red' }}>{msg?.text}</p>
                     <div className='medium-ball'></div>
-                    <span className='link-span'>¿Ya tienes cuenta? <a href='/login'>Iniciar sesión</a></span>
+                    <span className='link-span'>{t('register.loginLink')} <a href='/login'>{t('register.loginAction')}</a></span>
                 </div>
             </div>
         </div>

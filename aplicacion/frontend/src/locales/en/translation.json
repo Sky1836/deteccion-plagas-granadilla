@@ -1,0 +1,204 @@
+{
+    "menu": {
+        "title": "Menu",
+        "welcome": "Welcome, {{name}}",
+        "home": "Home",
+        "history": "Consultation History",
+        "trips": "Thrips",
+        "redSpider": "Red Spider",
+        "logout": "Log out"
+    },
+    "admin": {
+        "title": "Admin Panel",
+        "sections": {
+            "plagues": "Plagues",
+            "insecticides": "Insecticides",
+            "diagnostics": "Diagnostics"
+        },
+        "buttons": {
+            "addPlague": "Add new plague",
+            "addInsecticide": "Add insecticide",
+            "save": "Save",
+            "cancel": "Cancel",
+            "logout": "Log out"
+        },
+        "table": {
+            "name": "Name",
+            "type": "Type",
+            "description": "Description",
+            "compound": "Compound",
+            "application": "Application",
+            "plague": "Plague",
+            "date": "Date",
+            "farmer": "Farmer",
+            "result": "Result",
+            "recommendation": "Recommendation"
+        },
+        "modals": {
+            "addPlague": "Add Plague",
+            "addInsecticide": "Add Insecticide"
+        }
+    },
+    "diagnostico": {
+        "noData": "No diagnosis available",
+        "title": "Diagnosis Result",
+        "summary": "Model Summary",
+        "confidence": "Model confidence:",
+        "noInfo": "No specific information found for the detected pest.",
+        "trips": {
+            "title": "Thrips (Frankliniella occidentalis)",
+            "type": "Type: Piercing-sucking insect",
+            "symptoms": "Symptoms: Leaf burns, silver spots, flower and fruit deformation.",
+            "damage": "Damage: Reduced photosynthetic area, virus transmission, loss of commercial quality.",
+            "prevention": "Preventive control: Monitoring with blue sticky traps, weed removal, avoid excess nitrogen.",
+            "chemical": "Chemical control: Apply insecticides from group 3A (pyrethroids) or 4A (neonicotinoids), rotating active ingredients.",
+            "organicTitle": "🌿 Recommended organic control",
+            "organic": "Use blue sticky traps, garlic extract, potassium soap, and natural predators like Orius insidiosus and lacewings."
+        },
+        "arania": {
+            "title": "Red Spider Mite (Tetranychus urticae)",
+            "type": "Type: Mite",
+            "symptoms": "Symptoms: Yellow spots on leaves, fine webs, overall plant weakening.",
+            "damage": "Damage: Leaf drop, production decrease, total crop weakening in severe cases.",
+            "prevention": "Preventive control: Ensure proper humidity, avoid water stress, crop rotation.",
+            "chemical": "Chemical control: Apply acaricides from group 1B (organophosphates) or mineral oils, respecting pre-harvest intervals.",
+            "organicTitle": "🌿 Recommended organic control",
+            "organic": "Use wettable sulfur, garlic extract, or predators like Phytoseiulus persimilis and Amblyseius swirskii."
+        }
+    },
+    "farmer": {
+        "title": "Heal your crop",
+        "step1": "Take a\nphoto",
+        "step2": "See\ndiagnosis",
+        "step3": "Get the\ntreatment",
+        "takePhoto": "Take a photo",
+        "repeat": "Retake",
+        "accept": "Accept",
+        "noUser": "No authenticated user",
+        "noCamera": "Could not access the camera",
+        "noImage": "No image captured",
+        "noPests": "No pests detected",
+        "errorSending": "An error occurred while sending the image"
+    },
+    "auth": {
+        "redirecting": "Redireccionando..."
+    },
+    "historial": {
+        "noUser": "No authenticated user",
+        "errorLoad": "Error loading history",
+        "noData": "No saved diagnoses",
+        "title": "📜 Diagnosis History",
+        "result": "Result",
+        "plague": "Plague",
+        "recommendation": "Recommendation",
+        "unknown": "Unknown",
+        "none": "—",
+        "notImplementedTrips": "Trips not yet implemented",
+        "notImplementedHLB": "HLB not yet implemented"
+    },
+    "login": {
+        "welcome": "WELCOME",
+        "subtitle": "Transform your crop with technology",
+        "description": "This app helps you detect pests automatically and make smart decisions to protect your granadilla.",
+        "title": "Login",
+        "emailText": "Sign in with your email and password",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "forgot": "Forgot your password?",
+        "login": "Login",
+        "noAccount": "Don't have an account?",
+        "register": "Register",
+        "or": "OR",
+        "google": "Sign in with Google",
+        "enterEmailToRecover": "Enter your email to recover password",
+        "emailSent": "Email sent. Check your inbox",
+        "userNotFound": "This email is not registered",
+        "emailSendError": "An error occurred while sending the email. Try again",
+        "serverError": "Could not connect to the server"
+    },
+    "plagas": {
+        "trips": {
+            "nombre": "Thrips (Frankliniella occidentalis)",
+            "descripcion": "Thrips are tiny insects that feed on leaves and flowers, causing visible damage and transmitting viruses that affect crop productivity.",
+            "sintomas": [
+                "Burns on young leaves",
+                "Yellowing and curling of leaves",
+                "Reduction of photosynthetic area",
+                "Deformation of fruits and virus transmission"
+            ],
+            "insecticidas": [
+                "Pyrethroids: cypermethrin, deltamethrin, lambda-cyhalothrin",
+                "Neonicotinoids: imidacloprid, acetamiprid",
+                "Sulfoximines: sulfoxaflor"
+            ],
+            "epocas": "Most common in dry and warm climates, especially from June to September.",
+            "prevencion": [
+                "Constant monitoring of the crop",
+                "Crop rotation and weed removal",
+                "Use of blue chromatic traps"
+            ],
+            "imagenes": [
+                "/img/trips1.jpg",
+                "/img/trips2.jpg"
+            ]
+        },
+        "arania": {
+            "nombre": "Red Spider Mite (Tetranychus urticae)",
+            "descripcion": "The red spider mite is a pest that attacks leaves, causing spots and weakening the plant. It reproduces rapidly in dry and hot environments.",
+            "sintomas": [
+                "Small yellow spots on leaves",
+                "Dry leaves and premature drop",
+                "Presence of fine webs on the underside of leaves"
+            ],
+            "insecticidas": [
+                "Organophosphates: fenamiphos, phosmet",
+                "Pyrethroids: cypermethrin"
+            ],
+            "epocas": "Frequent during dry seasons with high temperatures (January to April).",
+            "prevencion": [
+                "Increase humidity in the crop",
+                "Remove infected leaves",
+                "Biological control using natural predators such as Phytoseiulus persimilis"
+            ],
+            "imagenes": [
+                "/img/arania1.jpg",
+                "/img/arania2.jpg"
+            ]
+        }
+    },
+    "plaga": {
+        "notFound": "Pest not found.",
+        "symptoms": "Symptoms",
+        "insecticides": "Recommended Insecticides",
+        "season": "High Incidence Season",
+        "prevention": "Prevention Measures",
+        "images": "Images"
+    },
+    "register": {
+        "title": "REGISTER",
+        "subtitle": "Access technology to protect your crops",
+        "description": "This platform is designed to help you identify and treat pests easily and accurately.",
+        "formTitle": "Create your account",
+        "formSubtitle": "Enter your information to sign up",
+        "fullName": "Full name",
+        "email": "Email",
+        "phone": "Phone (optional)",
+        "password": "Password",
+        "submit": "Register",
+        "loginLink": "Already have an account?",
+        "loginAction": "Log in",
+        "required": "All fields are required",
+        "error": "Registration error"
+    },
+    "reset": {
+        "title": "Reset password",
+        "subtitle": "Enter your new password",
+        "placeholder": "New password",
+        "submit": "Change password",
+        "success": "Password updated successfully. You can now log in.",
+        "error": "Error changing password. Please try again.",
+        "invalid": "Invalid or expired link",
+        "short": "Password must be at least 6 characters long",
+        "back": "Back to login"
+    }
+}

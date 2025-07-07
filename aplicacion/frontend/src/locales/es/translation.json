@@ -1,0 +1,204 @@
+{
+    "menu": {
+        "title": "Menú",
+        "welcome": "Bienvenido, {{name}}",
+        "home": "Inicio",
+        "history": "Historial de Consultas",
+        "trips": "Trips",
+        "redSpider": "Araña Roja",
+        "logout": "Cerrar sesión"
+    },
+    "admin": {
+        "title": "Panel de Administración",
+        "sections": {
+            "plagues": "Plagas",
+            "insecticides": "Insecticidas",
+            "diagnostics": "Diagnósticos"
+        },
+        "buttons": {
+            "addPlague": "Añadir nueva plaga",
+            "addInsecticide": "Añadir insecticida",
+            "save": "Guardar",
+            "cancel": "Cancelar",
+            "logout": "Cerrar sesión"
+        },
+        "table": {
+            "name": "Nombre",
+            "type": "Tipo",
+            "description": "Descripción",
+            "compound": "Compuesto",
+            "application": "Aplicación",
+            "plague": "Plaga",
+            "date": "Fecha",
+            "farmer": "Agricultor",
+            "result": "Resultado",
+            "recommendation": "Recomendación"
+        },
+        "modals": {
+            "addPlague": "Agregar Plaga",
+            "addInsecticide": "Agregar Insecticida"
+        }
+    },
+    "diagnostico": {
+        "noData": "No hay diagnóstico disponible",
+        "title": "Resultado del diagnóstico",
+        "summary": "Resumen del modelo",
+        "confidence": "Confianza del modelo:",
+        "noInfo": "No se encontró información específica para la plaga detectada.",
+        "trips": {
+            "title": "Trips (Frankliniella occidentalis)",
+            "type": "Tipo: Insecto chupador",
+            "symptoms": "Síntomas: Quemaduras en hojas, manchas plateadas, deformación de flores y frutos.",
+            "damage": "Daños: Reducción de área fotosintética, transmisión de virus, pérdida de calidad comercial.",
+            "prevention": "Control preventivo: Monitoreo con trampas azules, eliminación de maleza, evitar el exceso de nitrógeno.",
+            "chemical": "Control químico: Aplicar insecticidas del grupo 3A (piretroides) o 4A (neonicotinoides), con rotación de ingredientes activos.",
+            "organicTitle": "🌿 Control orgánico recomendado",
+            "organic": "Usa trampas adhesivas azules, extracto de ajo, jabón potásico, y depredadores naturales como Orius insidiosus y crisopas."
+        },
+        "arania": {
+            "title": "Araña Roja (Tetranychus urticae)",
+            "type": "Tipo: Ácaro",
+            "symptoms": "Síntomas: Manchas amarillas en hojas, telarañas finas, debilitamiento general de la planta.",
+            "damage": "Daños: Caída de hojas, reducción de producción, debilitamiento total del cultivo en casos graves.",
+            "prevention": "Control preventivo: Asegurar humedad adecuada, evitar estrés hídrico, rotación de cultivos.",
+            "chemical": "Control químico: Aplicar acaricidas del grupo 1B (organofosforados) o aceites minerales, respetando los tiempos de carencia.",
+            "organicTitle": "🌿 Control orgánico recomendado",
+            "organic": "Usa azufre mojable, extracto de ajo, o depredadores como Phytoseiulus persimilis y Amblyseius swirskii."
+        }
+    },
+    "farmer": {
+        "title": "Sane su cultivo",
+        "step1": "Tomar una\nfoto",
+        "step2": "Ver\ndiagnóstico",
+        "step3": "Obtener el\ntratamiento",
+        "takePhoto": "Tomar una foto",
+        "repeat": "Repetir",
+        "accept": "Aceptar",
+        "noUser": "No hay usuario autenticado",
+        "noCamera": "No se pudo acceder a la cámara",
+        "noImage": "No hay imagen capturada",
+        "noPests": "No se detectaron plagas",
+        "errorSending": "Ocurrió un error al enviar la imagen"
+    },
+    "auth": {
+        "redirecting": "Redireccionando..."
+    },
+    "historial": {
+        "noUser": "No hay usuario autenticado",
+        "errorLoad": "Error cargando historial",
+        "noData": "No hay diagnósticos guardados",
+        "title": "📜 Historial de Diagnósticos",
+        "result": "Resultado",
+        "plague": "Plaga",
+        "recommendation": "Recomendación",
+        "unknown": "Desconocida",
+        "none": "—",
+        "notImplementedTrips": "Trips aún no implementado",
+        "notImplementedHLB": "HLB aún no implementado"
+    },
+    "login": {
+        "welcome": "BIENVENIDO",
+        "subtitle": "Transforma tu cultivo con tecnología",
+        "description": "Esta aplicación te ayuda a detectar plagas de forma automática y tomar decisiones acertadas para proteger tu granadilla.",
+        "title": "Iniciar sesión",
+        "emailText": "Ingresa con tu correo electrónico y contraseña",
+        "emailPlaceholder": "Correo electrónico",
+        "passwordPlaceholder": "Contraseña",
+        "forgot": "¿Olvidaste tu contraseña?",
+        "login": "Iniciar sesión",
+        "noAccount": "¿No tienes cuenta?",
+        "register": "Regístrate",
+        "or": "O",
+        "google": "Entrar con Google",
+        "enterEmailToRecover": "Ingresa tu correo para recuperar la contraseña",
+        "emailSent": "Correo enviado. Revisa tu bandeja de entrada",
+        "userNotFound": "Este correo no está registrado",
+        "emailSendError": "Hubo un error al enviar el correo. Intenta nuevamente",
+        "serverError": "No se pudo conectar con el servidor"
+    },
+    "plagas": {
+        "trips": {
+            "nombre": "Trips (Frankliniella occidentalis)",
+            "descripcion": "Los trips son insectos diminutos que se alimentan de las hojas y flores, causando daños visibles y transmitiendo virus que afectan la productividad del cultivo.",
+            "sintomas": [
+                "Quemazón en hojas jóvenes",
+                "Amarillamiento y encrespamiento de hojas",
+                "Disminución del área fotosintética",
+                "Malformaciones en frutos y transmisión de virus"
+            ],
+            "insecticidas": [
+                "Piretroides: cipermetrín, deltametrín, lambda-cihalotrín",
+                "Neonicotinoides: imidacloprid, acetamiprid",
+                "Sulfosilaminas: sulfoxaflor"
+            ],
+            "epocas": "Más comunes en climas secos y cálidos, especialmente entre junio y septiembre.",
+            "prevencion": [
+                "Monitoreo constante del cultivo",
+                "Rotación de cultivos y eliminación de malezas",
+                "Uso de trampas cromáticas azules"
+            ],
+            "imagenes": [
+                "/img/trips1.jpg",
+                "/img/trips2.jpg"
+            ]
+        },
+        "arania": {
+            "nombre": "Araña Roja (Tetranychus urticae)",
+            "descripcion": "La araña roja es un ácaro que ataca las hojas, generando manchas y debilitamiento de la planta. Su reproducción es muy rápida en ambientes secos y calurosos.",
+            "sintomas": [
+                "Pequeños puntos amarillos en hojas",
+                "Hojas secas y caída prematura",
+                "Presencia de telarañas finas en el envés de las hojas"
+            ],
+            "insecticidas": [
+                "Órganos fosforados: fenamifós, fosmet",
+                "Piretroides: cipermetrín"
+            ],
+            "epocas": "Frecuente durante épocas secas con altas temperaturas (enero a abril).",
+            "prevencion": [
+                "Aumento de humedad en el cultivo",
+                "Eliminación de hojas infectadas",
+                "Control biológico con enemigos naturales como Phytoseiulus persimilis"
+            ],
+            "imagenes": [
+                "/img/arania1.jpg",
+                "/img/arania2.jpg"
+            ]
+        }
+    },
+    "plaga": {
+        "notFound": "Plaga no encontrada.",
+        "symptoms": "Síntomas",
+        "insecticides": "Insecticidas Recomendados",
+        "season": "Épocas del Año de Mayor Incidencia",
+        "prevention": "Medidas de Prevención",
+        "images": "Imágenes"
+    },
+    "register": {
+        "title": "REGISTRO",
+        "subtitle": "Accede a la tecnología para proteger tus cultivos",
+        "description": "Esta plataforma está diseñada para ayudarte a identificar y tratar plagas de forma sencilla y precisa.",
+        "formTitle": "Crea tu cuenta",
+        "formSubtitle": "Ingresa tus datos para registrarte",
+        "fullName": "Nombre completo",
+        "email": "Correo electrónico",
+        "phone": "Teléfono (opcional)",
+        "password": "Contraseña",
+        "submit": "Registrarse",
+        "loginLink": "¿Ya tienes cuenta?",
+        "loginAction": "Iniciar sesión",
+        "required": "Todos los campos son obligatorios",
+        "error": "Error al registrar"
+    },
+    "reset": {
+        "title": "Restablecer contraseña",
+        "subtitle": "Ingresa tu nueva contraseña",
+        "placeholder": "Nueva contraseña",
+        "submit": "Cambiar contraseña",
+        "success": "Contraseña actualizada correctamente. Ahora puedes iniciar sesión.",
+        "error": "Error al cambiar la contraseña. Intenta nuevamente.",
+        "invalid": "Enlace inválido o expirado",
+        "short": "La contraseña debe tener al menos 6 caracteres",
+        "back": "Volver al login"
+    }
+}

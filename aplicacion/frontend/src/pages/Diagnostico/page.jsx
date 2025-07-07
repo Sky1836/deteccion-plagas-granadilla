@@ -4,11 +4,14 @@ import './styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { useAchievement } from '../../hooks/useAchievement';
+import AchievementModal from '../../components/AchievementModal.jsx';
 
 export default function Diagnostico() {
   const [diagnostico, setDiagnostico] = useState(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { achievement, unlockAchievement, clearAchievement } = useAchievement();
 
   useEffect(() => {
     let yaProcesado = false;
@@ -114,6 +117,13 @@ export default function Diagnostico() {
 
         console.log('✅ Diagnóstico guardado correctamente en el backend.');
         localStorage.setItem('mockDiagnostico', JSON.stringify({ ...parsed, guardado: true }));
+        await unlockAchievement({
+          userId,
+          name: 'Primer diagnóstico',
+          description: 'Has registrado tu primer diagnóstico de plaga.',
+          icon: '/badges/diagnostico1.png',
+        });
+
       } catch (err) {
         console.error('❌ Error al guardar diagnóstico:', err.message);
       }
@@ -176,26 +186,32 @@ export default function Diagnostico() {
   };
 
   return (
-    <div className="diagnostico-container">
-      <div className="diagnostico-header">
-        <button onClick={() => navigate('/agricultor')} className="back-button">
-          <FontAwesomeIcon icon={faChevronLeft} /> {fechaFormateada}
-        </button>
-        <h2 className="titulo-diagnostico">{t('diagnostico.title')}</h2>
-      </div>
+    <>
+      {achievement && (
+        <AchievementModal achievement={achievement} onClose={clearAchievement} />
+      )}
 
-      <div className="diagnostico-card">
-        <img src={diagnostico.imagen} alt="captura" className="imagen-plaga" />
-        <div className="info-plaga">
-          {renderInfoPlaga()}
+      <div className="diagnostico-container">
+        <div className="diagnostico-header">
+          <button onClick={() => navigate('/agricultor')} className="back-button">
+            <FontAwesomeIcon icon={faChevronLeft} /> {fechaFormateada}
+          </button>
+          <h2 className="titulo-diagnostico">{t('diagnostico.title')}</h2>
+        </div>
+
+        <div className="diagnostico-card">
+          <img src={diagnostico.imagen} alt="captura" className="imagen-plaga" />
+          <div className="info-plaga">
+            {renderInfoPlaga()}
+          </div>
+        </div>
+
+        <div className="recomendaciones-section">
+          <h3>{t('diagnostico.summary')}</h3>
+          <p>{diagnostico.recomendacion}</p>
+          <p><strong>{t('diagnostico.confidence')}</strong> {diagnostico.confianza}%</p>
         </div>
       </div>
-
-      <div className="recomendaciones-section">
-        <h3>{t('diagnostico.summary')}</h3>
-        <p>{diagnostico.recomendacion}</p>
-        <p><strong>{t('diagnostico.confidence')}</strong> {diagnostico.confianza}%</p>
-      </div>
-    </div>
+    </>
   );
 }

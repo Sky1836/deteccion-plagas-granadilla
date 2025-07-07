@@ -284,3 +284,16 @@ video {
     cursor: pointer;
     width: 90%;
 }
+
+/* Mejora contraste */
+.boton-foto {
+    background-color: #2d6a4f;
+    /* Verde oscuro */
+    color: #fff;
+}
+
+/* Accesibilidad */
+button:focus {
+    outline: 2px solid #ffb703;
+    outline-offset: 2px;
+}

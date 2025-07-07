@@ -173,7 +173,10 @@ export default function FarmerPage() {
       <div className='farmer-page'>
 
         <div className="camara-contenedor">
-          <h3 className="titulo">{t('farmer.title')}</h3>
+          <h3 className="titulo">
+            {t('farmer.title')}
+            <span className="info-icon" title="Aquí puedes diagnosticar tus cultivos tomando una foto de la hoja afectada."> ℹ️ </span>
+          </h3>
           <div className="pasos">
             <div className="paso"><div className="icono hoja" /><p>{t('farmer.step1')}</p></div>
             <span className="flecha">➔</span>
@@ -181,22 +184,23 @@ export default function FarmerPage() {
             <span className="flecha">➔</span>
             <div className="paso"><div className="icono tratamiento" /><p>{t('farmer.step3')}</p></div>
           </div>
-          <button className="boton-foto" onClick={abrirCamara}>{t('farmer.takePhoto')}</button>
+          <button className="boton-foto" onClick={abrirCamara} title="Inicia la cámara para tomar una foto de tu cultivo.">{t('farmer.takePhoto')}</button>
+          <p className="ayuda-texto">📌 Enfoca bien la hoja antes de tomar la foto.</p>
         </div>
 
         {showCamera && (
           <div className="pantalla-camara">
             {!preview ? (
               <>
-                <video ref={videoRef} autoPlay playsInline muted className="video-camara" />
-                <button className="boton-captura" onClick={capturarFoto}></button>
+                <video ref={videoRef} autoPlay playsInline muted className="video-camara" role="presentation" />
+                <button className="boton-captura" onClick={capturarFoto} title="Captura la imagen que se muestra en pantalla."></button>
               </>
             ) : (
               <>
                 <img src={preview} alt="captura" className="preview-img" />
                 <div className="botones-acciones">
-                  <button className="boton-repetir" onClick={abrirCamara}>{t('farmer.repeat')}</button>
-                  <button className="boton-aceptar" onClick={aceptarDiagnostico}>{t('farmer.accept')}</button>
+                  <button className="boton-repetir" onClick={abrirCamara} title="Volver a tomar la foto">{t('farmer.repeat')}</button>
+                  <button className="boton-aceptar" onClick={aceptarDiagnostico} title="Enviar imagen para analizar posibles plagas.">{t('farmer.accept')}</button>
                 </div>
               </>
             )}

@@ -101,9 +101,6 @@ export default function AdminPanel() {
             <div className={`section-body-wrapper ${expanded.plagas ? 'expand' : 'collapse'}`}>
                 {expanded.plagas && (
                     <div className="section-body">
-                        <button onClick={() => setModal('plaga')} className="add-button">
-                            <FontAwesomeIcon icon={faPlus} /> {t('admin.buttons.addPlague')}
-                        </button>
                         <div className="table-container">
                             <table className="admin-table">
                                 <thead>

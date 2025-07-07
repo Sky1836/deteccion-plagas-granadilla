@@ -9,6 +9,7 @@ import { DetectorModule } from './detector/detector.module';
 import { S3Service } from './upload/s3.service';
 import { UploadController } from './upload/upload.controller';
 import { UploadModule } from './upload/upload.module';
+import { AchievementsModule } from './achievements/achievements.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UploadModule } from './upload/upload.module';
     InsecticidasModule,
     DetectorModule,
     UploadModule,
+    AchievementsModule,
   ],
   providers: [S3Service],
   controllers: [UploadController]

@@ -11,6 +11,8 @@ export default function Diagnostico() {
   const { t } = useTranslation();
 
   useEffect(() => {
+    let yaProcesado = false;
+
     const data = localStorage.getItem('mockDiagnostico');
     console.log('🧠 mockDiagnostico crudo desde localStorage:', data);
 
@@ -49,6 +51,9 @@ export default function Diagnostico() {
 
     const subirImagenAS3 = async () => {
       try {
+        if (yaProcesado) return null;
+        yaProcesado = true;
+
         console.log('📤 Subiendo imagen a S3:', parsed.imagen);
         const resBlob = await fetch(parsed.imagen);
         const blob = await resBlob.blob();
@@ -115,6 +120,11 @@ export default function Diagnostico() {
     };
 
     guardarDiagnostico();
+
+    // cleanup opcional si usas el modo estricto
+    return () => {
+      yaProcesado = true;
+    };
   }, [navigate, t]);
 
 
@@ -184,7 +194,7 @@ export default function Diagnostico() {
       <div className="recomendaciones-section">
         <h3>{t('diagnostico.summary')}</h3>
         <p>{diagnostico.recomendacion}</p>
-        <p><strong>{t('diagnostico.confidence')}</strong> {Math.round(diagnostico.confianza * 100)}%</p>
+        <p><strong>{t('diagnostico.confidence')}</strong> {diagnostico.confianza}%</p>
       </div>
     </div>
   );

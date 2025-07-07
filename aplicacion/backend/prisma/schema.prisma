@@ -15,6 +15,7 @@ model User {
   rol          Rol           @default(AGRICULTOR)
   createdAt    DateTime      @default(now())
   diagnosticos Diagnostico[]
+  achievements Achievement[]
 }
 
 model Diagnostico {
@@ -51,4 +52,17 @@ model Insecticida {
 enum Rol {
   AGRICULTOR
   ADMIN
+}
+
+model Achievement {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  name        String
+  description String
+  icon        String
+  unlockedAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, name])
 }

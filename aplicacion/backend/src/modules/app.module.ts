@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -10,9 +11,11 @@ import { S3Service } from './upload/s3.service';
 import { UploadController } from './upload/upload.controller';
 import { UploadModule } from './upload/upload.module';
 import { AchievementsModule } from './achievements/achievements.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
     UsersModule,
     AuthModule,
@@ -22,6 +25,7 @@ import { AchievementsModule } from './achievements/achievements.module';
     DetectorModule,
     UploadModule,
     AchievementsModule,
+    MailModule,
   ],
   providers: [S3Service],
   controllers: [UploadController]

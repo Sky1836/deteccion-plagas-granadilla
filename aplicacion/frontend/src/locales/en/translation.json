@@ -65,7 +65,9 @@
             "chemical": "Chemical control: Apply acaricides from group 1B (organophosphates) or mineral oils, respecting pre-harvest intervals.",
             "organicTitle": "🌿 Recommended organic control",
             "organic": "Use wettable sulfur, garlic extract, or predators like Phytoseiulus persimilis and Amblyseius swirskii."
-        }
+        },
+        "pdfDownload": "Download Diagnosis PDF",
+        "generando": "Generating PDF..."
     },
     "farmer": {
         "title": "Heal your crop",

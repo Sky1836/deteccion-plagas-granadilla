@@ -65,7 +65,9 @@
             "chemical": "Control químico: Aplicar acaricidas del grupo 1B (organofosforados) o aceites minerales, respetando los tiempos de carencia.",
             "organicTitle": "🌿 Control orgánico recomendado",
             "organic": "Usa azufre mojable, extracto de ajo, o depredadores como Phytoseiulus persimilis y Amblyseius swirskii."
-        }
+        },
+        "pdfDownload": "Descargar PDF del diagnóstico",
+        "generando": "Generando PDF..."
     },
     "farmer": {
         "title": "Sane su cultivo",

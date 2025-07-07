@@ -219,7 +219,7 @@ export default function Diagnostico() {
             fileName={`diagnostico-${diagnostico.fecha}.pdf`}
             className="boton-descargar"
           >
-            {({ loading }) => (loading ? 'Generando PDF...' : '📄 Descargar diagnóstico en PDF')}
+            {({ loading }) => (loading ? t('diagnostico.generando') : t('diagnostico.pdfDownload'))}
           </PDFDownloadLink>
         </div>
       </div>

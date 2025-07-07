@@ -12,6 +12,8 @@ export default function Diagnostico() {
 
   useEffect(() => {
     const data = localStorage.getItem('mockDiagnostico');
+    console.log('🧠 mockDiagnostico crudo desde localStorage:', data);
+
     if (!data) {
       alert(t('diagnostico.noData'));
       navigate('/');
@@ -19,13 +21,18 @@ export default function Diagnostico() {
     }
 
     const parsed = JSON.parse(data);
+    console.log('📦 Diagnóstico parseado:', parsed);
     setDiagnostico(parsed);
 
-    if (parsed.guardado) return;
+    if (parsed.guardado) {
+      console.log('📁 Diagnóstico ya guardado previamente, no se repetirá la operación.');
+      return;
+    }
 
     const userId = parseInt(localStorage.getItem('userId'), 10);
+    console.log('👤 userId:', userId);
     if (!userId) {
-      console.warn('Usuario no autenticado');
+      console.warn('⚠️ Usuario no autenticado, no se puede guardar diagnóstico');
       return;
     }
 
@@ -33,13 +40,16 @@ export default function Diagnostico() {
     if (parsed.plaga?.toLowerCase().includes('trip')) plagaId = 1;
     else if (parsed.plaga?.toLowerCase().includes('araña')) plagaId = 2;
 
+    console.log('🪰 Plaga:', parsed.plaga, '→ plagaId:', plagaId);
+
     if (!plagaId) {
-      console.warn('Plaga desconocida, no se guardará en la BD');
+      console.warn('❌ Plaga desconocida, no se guardará en la BD');
       return;
     }
 
     const subirImagenAS3 = async () => {
       try {
+        console.log('📤 Subiendo imagen a S3:', parsed.imagen);
         const resBlob = await fetch(parsed.imagen);
         const blob = await resBlob.blob();
         const formData = new FormData();
@@ -50,10 +60,17 @@ export default function Diagnostico() {
           body: formData,
         });
 
-        if (!res.ok) throw new Error('Fallo al subir imagen a S3');
+        console.log('🧾 Respuesta de subida de imagen:', res.status);
 
-        const { url } = await res.json();
-        return url;
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error('❌ Fallo al subir imagen a S3:', errorText);
+          throw new Error('Fallo al subir imagen a S3');
+        }
+
+        const result = await res.json();
+        console.log('✅ Imagen subida con éxito. URL:', result.url);
+        return result.url;
       } catch (err) {
         console.error('❌ Error subiendo imagen a S3:', err.message);
         return null;
@@ -62,25 +79,35 @@ export default function Diagnostico() {
 
     const guardarDiagnostico = async () => {
       const imagenUrl = await subirImagenAS3();
-      if (!imagenUrl) return;
+      if (!imagenUrl) {
+        console.warn('⚠️ No se obtuvo URL de imagen, se detiene el guardado.');
+        return;
+      }
+
+      const payload = {
+        userId,
+        plagaId,
+        resultado: parsed.plaga,
+        recomendacion: parsed.recomendacion,
+        imagenUrl,
+        fecha: parsed.fecha,
+      };
+
+      console.log('📦 Payload a enviar a /diagnosticos:', payload);
 
       try {
         const res = await fetch('https://api.granashield.com/diagnosticos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId,
-            plagaId,
-            resultado: parsed.plaga,
-            recomendacion: parsed.recomendacion,
-            imagenUrl,
-            fecha: parsed.fecha,
-          }),
+          body: JSON.stringify(payload),
         });
+
+        const responseText = await res.text();
+        console.log('📥 Respuesta al guardar diagnóstico:', res.status, responseText);
 
         if (!res.ok) throw new Error('Error al guardar diagnóstico');
 
-        console.log('✅ Diagnóstico guardado');
+        console.log('✅ Diagnóstico guardado correctamente en el backend.');
         localStorage.setItem('mockDiagnostico', JSON.stringify({ ...parsed, guardado: true }));
       } catch (err) {
         console.error('❌ Error al guardar diagnóstico:', err.message);
@@ -89,6 +116,7 @@ export default function Diagnostico() {
 
     guardarDiagnostico();
   }, [navigate, t]);
+
 
   if (!diagnostico) return null;
 

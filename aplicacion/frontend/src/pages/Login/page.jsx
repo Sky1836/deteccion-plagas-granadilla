@@ -54,6 +54,7 @@ const LoginPage = () => {
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("userId", data.user.id); // ← 👈 agrega esto
 
       const redirectUrl = data.user.rol === "ADMIN" ? "/admin" : "/agricultor";
       window.location.href = redirectUrl;

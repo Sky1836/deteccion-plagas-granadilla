@@ -196,7 +196,7 @@ video {
 
 .boton-captura {
     position: absolute;
-    bottom: 40px;
+    bottom: 100px;
     width: 80px;
     height: 80px;
     background: white;
@@ -213,7 +213,7 @@ video {
 
 .botones-acciones {
     position: absolute;
-    bottom: 50px;
+    bottom: 100px;
     display: flex;
     gap: 20px;
     z-index: 10000;

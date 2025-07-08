@@ -52,7 +52,7 @@
             "symptoms": "Síntomas: Quemaduras en hojas, manchas plateadas, deformación de flores y frutos.",
             "damage": "Daños: Reducción de área fotosintética, transmisión de virus, pérdida de calidad comercial.",
             "prevention": "Control preventivo: Monitoreo con trampas azules, eliminación de maleza, evitar el exceso de nitrógeno.",
-            "chemical": "Control químico: Aplicar insecticidas del grupo 3A (piretroides) o 4A (neonicotinoides), con rotación de ingredientes activos.",
+            "chemical": "Control químico: Aplicar insecticidas con distintos modos de acción como Grupo 3A (Piretroides: lambda-cihalotrina, deltametrina), Grupo 4A (Neonicotinoides: imidacloprid, acetamiprid), o Grupo 4C (Sulfosilaminas: sulfoxaflor). Se recomienda alternar grupos para evitar resistencia según la guía IRAC.",
             "organicTitle": "🌿 Control orgánico recomendado",
             "organic": "Usa trampas adhesivas azules, extracto de ajo, jabón potásico, y depredadores naturales como Orius insidiosus y crisopas."
         },
@@ -62,7 +62,7 @@
             "symptoms": "Síntomas: Manchas amarillas en hojas, telarañas finas, debilitamiento general de la planta.",
             "damage": "Daños: Caída de hojas, reducción de producción, debilitamiento total del cultivo en casos graves.",
             "prevention": "Control preventivo: Asegurar humedad adecuada, evitar estrés hídrico, rotación de cultivos.",
-            "chemical": "Control químico: Aplicar acaricidas del grupo 1B (organofosforados) o aceites minerales, respetando los tiempos de carencia.",
+            "chemical": "Control químico: Utilizar acaricidas con diferentes modos de acción como Grupo 1B (Organofosforados: fosmet, fenamifós) o aceites minerales. Alternar ingredientes activos según el IRAC para minimizar el desarrollo de resistencia.",
             "organicTitle": "🌿 Control orgánico recomendado",
             "organic": "Usa azufre mojable, extracto de ajo, o depredadores como Phytoseiulus persimilis y Amblyseius swirskii."
         },

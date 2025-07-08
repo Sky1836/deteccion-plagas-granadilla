@@ -155,10 +155,10 @@ export default function Diagnostico() {
         <>
           <h3>{t('diagnostico.trips.title')}</h3>
           <p className="tipo-plaga">{t('diagnostico.trips.type')}</p>
-          <p><strong>{t('diagnostico.trips.symptoms')}</strong></p>
-          <p><strong>{t('diagnostico.trips.damage')}</strong></p>
-          <p><strong>{t('diagnostico.trips.prevention')}</strong></p>
-          <p><strong>{t('diagnostico.trips.chemical')}</strong></p>
+          <p>{t('diagnostico.trips.symptoms')}</p>
+          <p>{t('diagnostico.trips.damage')}</p>
+          <p>{t('diagnostico.trips.prevention')}</p>
+          <p>{t('diagnostico.trips.chemical')}</p>
           <div className="control-organico">
             <h4>{t('diagnostico.trips.organicTitle')}</h4>
             <p>{t('diagnostico.trips.organic')}</p>
@@ -172,10 +172,10 @@ export default function Diagnostico() {
         <>
           <h3>{t('diagnostico.arania.title')}</h3>
           <p className="tipo-plaga">{t('diagnostico.arania.type')}</p>
-          <p><strong>{t('diagnostico.arania.symptoms')}</strong></p>
-          <p><strong>{t('diagnostico.arania.damage')}</strong></p>
-          <p><strong>{t('diagnostico.arania.prevention')}</strong></p>
-          <p><strong>{t('diagnostico.arania.chemical')}</strong></p>
+          <p>{t('diagnostico.arania.symptoms')}</p>
+          <p>{t('diagnostico.arania.damage')}</p>
+          <p>{t('diagnostico.arania.prevention')}</p>
+          <p>{t('diagnostico.arania.chemical')}</p>
           <div className="control-organico">
             <h4>{t('diagnostico.arania.organicTitle')}</h4>
             <p>{t('diagnostico.arania.organic')}</p>
@@ -186,6 +186,37 @@ export default function Diagnostico() {
 
     return <p>{t('diagnostico.noInfo')}</p>;
   };
+
+  const contenidoDiagnostico = () => {
+    if (plaga === 'trips') {
+      return {
+        title: t('diagnostico.trips.title'),
+        type: t('diagnostico.trips.type'),
+        symptoms: t('diagnostico.trips.symptoms'),
+        damage: t('diagnostico.trips.damage'),
+        prevention: t('diagnostico.trips.prevention'),
+        chemical: t('diagnostico.trips.chemical'),
+        organicTitle: t('diagnostico.trips.organicTitle'),
+        organic: t('diagnostico.trips.organic')
+      };
+    }
+
+    if (plaga === 'araña') {
+      return {
+        title: t('diagnostico.arania.title'),
+        type: t('diagnostico.arania.type'),
+        symptoms: t('diagnostico.arania.symptoms'),
+        damage: t('diagnostico.arania.damage'),
+        prevention: t('diagnostico.arania.prevention'),
+        chemical: t('diagnostico.arania.chemical'),
+        organicTitle: t('diagnostico.arania.organicTitle'),
+        organic: t('diagnostico.arania.organic')
+      };
+    }
+
+    return null;
+  };
+
 
   return (
     <>
@@ -208,14 +239,14 @@ export default function Diagnostico() {
           </div>
         </div>
 
-        <div className="recomendaciones-section">
-          <h3>{t('diagnostico.summary')}</h3>
-          <p>{diagnostico.recomendacion}</p>
-          <p><strong>{t('diagnostico.confidence')}</strong> {diagnostico.confianza}%</p>
-        </div>
         <div style={{ textAlign: 'center', marginTop: 20 }}>
           <PDFDownloadLink
-            document={<DiagnosticoPDF diagnostico={diagnostico} />}
+            document={
+              <DiagnosticoPDF
+                diagnostico={diagnostico}
+                contenido={contenidoDiagnostico()}
+              />
+            }
             fileName={`diagnostico-${diagnostico.fecha}.pdf`}
             className="boton-descargar"
           >

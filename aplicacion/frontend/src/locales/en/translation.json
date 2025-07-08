@@ -52,7 +52,7 @@
             "symptoms": "Symptoms: Leaf burns, silver spots, flower and fruit deformation.",
             "damage": "Damage: Reduced photosynthetic area, virus transmission, loss of commercial quality.",
             "prevention": "Preventive control: Monitoring with blue sticky traps, weed removal, avoid excess nitrogen.",
-            "chemical": "Chemical control: Apply insecticides from group 3A (pyrethroids) or 4A (neonicotinoids), rotating active ingredients.",
+            "chemical": "Chemical control: Use insecticides from IRAC Group 3A (Pyrethroids: lambda-cyhalothrin, deltamethrin) or Group 4A (Neonicotinoids: imidacloprid, acetamiprid), and Group 4C (Sulfosylimines: sulfoxaflor). Rotate modes of action to delay resistance, following IRAC guidelines.",
             "organicTitle": "🌿 Recommended organic control",
             "organic": "Use blue sticky traps, garlic extract, potassium soap, and natural predators like Orius insidiosus and lacewings."
         },
@@ -60,11 +60,11 @@
             "title": "Red Spider Mite (Tetranychus urticae)",
             "type": "Type: Mite",
             "symptoms": "Symptoms: Yellow spots on leaves, fine webs, overall plant weakening.",
-            "damage": "Damage: Leaf drop, production decrease, total crop weakening in severe cases.",
-            "prevention": "Preventive control: Ensure proper humidity, avoid water stress, crop rotation.",
-            "chemical": "Chemical control: Apply acaricides from group 1B (organophosphates) or mineral oils, respecting pre-harvest intervals.",
+            "damage": "Damage: Leaf drop, reduced production, severe crop weakening.",
+            "prevention": "Preventive control: Maintain adequate humidity, avoid water stress, rotate crops.",
+            "chemical": "Chemical control: Use acaricides from IRAC Group 1B (Organophosphates: fosmet, fenamiphos) or mineral oils. Rotate products with different modes of action to prevent resistance, as recommended by IRAC.",
             "organicTitle": "🌿 Recommended organic control",
-            "organic": "Use wettable sulfur, garlic extract, or predators like Phytoseiulus persimilis and Amblyseius swirskii."
+            "organic": "Use wettable sulfur, garlic extract, or natural predators like Phytoseiulus persimilis and Amblyseius swirskii."
         },
         "pdfDownload": "Download Diagnosis PDF",
         "generando": "Generating PDF..."

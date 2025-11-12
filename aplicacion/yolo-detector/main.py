@@ -5,7 +5,17 @@ import io
 import numpy as np
 import onnxruntime as ort
 import requests
-from printfarmdetector import print as printLn
+import os
+from dotenv import load_dotenv
+from printfarmdetector import print as printLn, configure_client
+
+# Cargar variables de entorno desde .env
+load_dotenv()
+
+# Configurar la librería con la ruta del backend (en realidad es la API key de OpenAI)
+RUTA_BACKEND = os.getenv("RUTA_BACKEND", "")
+if RUTA_BACKEND:
+    configure_client(RUTA_BACKEND)
 
 app = FastAPI()
 

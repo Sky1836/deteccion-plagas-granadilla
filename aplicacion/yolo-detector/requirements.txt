@@ -6,3 +6,4 @@ numpy
 onnxruntime
 requests
 printfarmdetector
+python-dotenv
